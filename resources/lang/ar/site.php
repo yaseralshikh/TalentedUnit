@@ -56,7 +56,7 @@ return [
     'description' => 'الوصف',
     'products_count' => 'عدد الامنتجات',
     'related_products' => 'المنتجات المرتبطه',
-    'category' => 'القسم',
+    'offices' => 'مكاتب التعليم',
     'show_products' => 'عرض المنتجات',
     'created_at' => 'تم اضافته',
 
