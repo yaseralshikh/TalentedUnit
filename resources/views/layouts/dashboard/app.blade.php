@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>{{ config('app.name', 'Laravel') }} | Dashboard</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -41,6 +41,11 @@
         opacity:0.6!important;
       }
     </style>
+
+    {{--noty--}}
+    <link rel="stylesheet" href="{{ asset('dashboard_files/plugins/noty/noty.css') }}">
+    <script src="{{ asset('dashboard_files/plugins/noty/noty.min.js') }}"></script>
+
   </head>
 
   <body class="hold-transition sidebar-mini layout-fixed">
@@ -100,5 +105,39 @@
     <script src="{{ asset('dashboard_files/dist/js/pages/dashboard.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('dashboard_files/dist/js/demo.js') }}"></script>
+
+    <script>
+      $(document).ready(function () {
+  
+          //delete
+          $('.delete').click(function (e) {
+      
+              var that = $(this)
+      
+              e.preventDefault();
+      
+              var n = new Noty({
+                  text: "@lang('site.confirm_delete')",
+                  type: "warning",
+                  killer: true,
+                  buttons: [
+                      Noty.button("@lang('site.yes')", 'btn btn-success mr-2', function () {
+                          that.closest('form').submit();
+                      }),
+      
+                      Noty.button("@lang('site.no')", 'btn btn-primary mr-2', function () {
+                          n.close();
+                      })
+                  ]
+              });
+      
+              n.show();
+      
+          });//end of delete
+      
+      });//end of ready
+    </script>  
+
+  @stack('scripts')
   </body>
 </html>

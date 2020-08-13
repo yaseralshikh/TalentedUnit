@@ -14,6 +14,8 @@ return [
     'roles_structure' => [
         'super_admin' => [
             'users' => 'c,r,u,d',
+            'offices' => 'c,r,u,d',
+            'schools' => 'c,r,u,d',
         ],
     ],
 
