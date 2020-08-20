@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\SchoolExport;
 use App\Http\Controllers\Controller;
+use App\Imports\SchoolImport;
 use App\Office;
 use App\School;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SchoolController extends Controller
 {
@@ -19,25 +22,78 @@ class SchoolController extends Controller
     {
         $offices = Office::all();
 
-        $schools = School::when($request->search, function ($q) use ($request) {
+        $schools = School::when($request->office_id, function ($q) use ($request) {
 
-            return $q->where('name', 'like' , '%' . $request->search . '%')
-                     ->orWhere('moe_id', 'like', '%' . $request->search . '%')
-                     ->orWhere('manager', 'like', '%' . $request->search . '%')
-                     ->orWhere('mobile', 'like', '%' . $request->search . '%')
-                     ->orWhere('email', 'like', '%' . $request->search . '%');
+                return $q->where('office_id', $request->office_id);
 
-        })->when($request->stage, function ($q) use ($request) {
+            })->when($request->stage, function ($q) use ($request) {
 
-            return $q->where('stage', $request->stage);
+                return $q->where('stage', $request->stage);
 
-        })->when($request->office_id, function ($q) use ($request) {
+            })->when($request->search, function ($q) use ($request) {
 
-            return $q->where('office_id', $request->office_id);
-
-        })->orderBy('name')->paginate(50);
+                return $q->where('name', 'like' , '%' . $request->search . '%')
+                         ->orWhere('moe_id', 'like', '%' . $request->search . '%')
+                         ->orWhere('manager', 'like', '%' . $request->search . '%')
+                         ->orWhere('mobile', 'like', '%' . $request->search . '%')
+                         ->orWhere('email', 'like', '%' . $request->search . '%');
+    
+            })->orderBy('name')->paginate(50);
 
         return view('dashboard.schools.index', compact('offices', 'schools'));
+    }
+
+    public function get_schools(Request $request)
+    {
+        
+        $schools = School::when($request->office_id, function ($q) use ($request) {
+
+            return $q->whereOfficeId($request->office_id);
+
+        })->pluck('name', 'id');
+
+        return response()->json($schools);
+
+    } // End of get_schools
+
+    public function export()
+    {
+        return Excel::download(new SchoolExport(), 'school.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'import_file' => 'required',
+        ]);  
+
+        $RadioOptions = $request->inlineRadioOptions;
+ 
+        if ($RadioOptions == 'add') {
+
+            // this for import with Append Data .
+            Excel::import(new SchoolImport(), $request->file('import_file'));
+
+        } else {
+
+            // this for remove data and Add now Data .
+            $schools = Excel::toCollection(new SchoolImport(), $request->file('import_file'));
+
+            foreach ($schools[0] as $school) {
+                School::where('id', $school[0])->update([
+                    'name' => $school[1],
+                    'office_id' => $school[2],
+                    'moe_id' => $school[3],
+                    'stage' => $school[4],
+                    'manager' => $school[5],
+                    'mobile' => $school[6],
+                    'email' => $school[7],
+                ]);
+            } 
+                   
+        }
+
+        return redirect()->route('dashboard.schools.index');
     }
 
     /**

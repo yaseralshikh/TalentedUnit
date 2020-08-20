@@ -16,6 +16,8 @@ return [
             'users' => 'c,r,u,d',
             'offices' => 'c,r,u,d',
             'schools' => 'c,r,u,d',
+            'teachers' => 'c,r,u,d',
+            'students' => 'c,r,u,d',
         ],
     ],
 

@@ -12,10 +12,23 @@ class Office extends Model
     {
         return $this->hasMany(School::class);
         
-    }//end of products
+    }//end of schools
+
+    public function teachers()
+    {
+        return $this->hasMany(Teacher::class);
+        
+    }//end of teachers
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+        
+    }//end of students
 
     public function getPaginatedSchoolsAttribute(){
         return $this->schools()->paginate(20);
-    }// end of Paginated Products
+
+    }// end of Paginated Schools
 
 }

@@ -38,21 +38,63 @@
                       </div>
 
                       <div class="col-md-6">
-                          <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> @lang('site.search')</button>
+                          <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-search"></i> @lang('site.search')</button>
+
+                          <a href="{{ route('dashboard.offices.index') }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.reset')"><i class="fas fa-sync-alt"></i></a>
+
                           @if (auth()->user()->hasPermission('offices_create'))
-                              <a href="{{ route('dashboard.offices.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> @lang('site.add')</a>
+                              <a href="{{ route('dashboard.office_excel_export') }}" class="btn btn-success btn-sm float-right"><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</a>
                           @else
-                              <a href="#" class="btn btn-primary disabled"><i class="fa fa-plus"></i> @lang('site.add')</a>
+                              <a href="#" class="btn btn-success btn-sm float-right disabled"><i class="far fa-file-excel"></i> @lang('site.export')</a>
+                          @endif
+
+                          @if (auth()->user()->hasPermission('offices_create'))
+                              <a href="{{ route('dashboard.offices.create') }}" class="btn btn-primary btn-sm float-right ml-3"><i class="fa fa-plus"></i> @lang('site.add')</a>
+                          @else
+                              <a href="#" class="btn btn-primary btn-sm float-right ml-3 disabled"><i class="fa fa-plus"></i> @lang('site.add')</a>
                           @endif
                       </div>
 
                   </div>
                 </form><!-- end of form -->
 
+                <div class="row">
+                  <div class="col-md-12">
+                      @if (auth()->user()->hasPermission('offices_create'))
+                          @include('partials._errors')
+                          <form class="m-3" role="form" action="{{ route('dashboard.office_excel_import') }}" method="POST" enctype="multipart/form-data" >
+                              @csrf
+                              <div class="form-group">
+                                <div class="input-group">
+                                  <div class="custom-file">
+                                    <input type="file" name="import_file" class="custom-file-input" id="exampleInputFile">
+                                    <label class="custom-file-label" for="exampleInputFile">اختر ملف ...</label>
+                                  </div>
+                                  <div class="input-group-append">
+                                    <button type="submit" class="btn btn-info"><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.import')</button>
+                                  </div>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="add" checked>
+                                  <label class="form-check-label" for="inlineRadio1">@lang('site.add')</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="update">
+                                  <label class="form-check-label" for="inlineRadio2">@lang('site.update')</label>
+                                </div>
+                              </div>
+                          </form>
+                      @else
+                          <a href="#" class="btn btn-warning disabled"><i class="far fa-file-excel"></i> @lang('site.import')</a>
+                      @endif
+                  </div>
+                </div>
+                
                 <hr>
 
                 <div class="card-body">
-                  @if ($offices->count() > 0)
+                  {{-- @if ($offices->count() > 0) --}}
 
                     <div class="table-responsive">
                       <table class="table table-hover">
@@ -68,7 +110,7 @@
                         </thead>
                         
                         <tbody>
-                          @foreach ($offices as $index=>$office)
+                          @forelse ($offices as $index=>$office)
                               <tr>
                                   <td>{{ $index + 1 }}</td>
                                   <td>{{ $office->name }}</td>
@@ -93,8 +135,14 @@
                                       @endif
                                   </td>
                               </tr>
-                          
-                          @endforeach
+
+                          @empty
+                              <tr>
+                                <td colspan="5" class="text-center">
+                                  <h2>@lang('site.no_data_found')</h2>
+                                </td>
+                              </tr>
+                          @endforelse
                         </tbody>
 
                       </table><!-- end of table -->
@@ -105,11 +153,11 @@
                   
                     {{ $offices->appends(request()->query())->links() }}
                   
-                  @else
+                  {{-- @else
                       
                       <h2>@lang('site.no_data_found')</h2>
                       
-                  @endif
+                  @endif --}}
                 </div>
                   <!-- /.card-body -->
 

@@ -12,6 +12,28 @@ class School extends Model
     {
         return $this->belongsTo(Office::class);
 
-    }//end fo category
+    }//end fo office
+
+    public function teachers()
+    {
+        return $this->hasMany(Teacher::class);
+        
+    }//end of teachers
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+        
+    }//end of students
+
+    public function getPaginatedTeachersAttribute(){
+        return $this->teachers()->paginate(20);
+
+    }// end of Paginated Teachers
+
+    public function getPaginatedStudentsAttribute(){
+        return $this->students()->paginate(20);
+
+    }// end of Paginated Students
 
 }

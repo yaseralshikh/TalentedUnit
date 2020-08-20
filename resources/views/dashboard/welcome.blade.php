@@ -9,7 +9,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Home</h1>
+                <h1 class="m-0 text-dark">@lang('site.dashboard')</h1>
               </div><!-- /.col -->
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -25,24 +25,96 @@
         <section class="content">
           <div class="container-fluid">
 
-            <!-- general form elements -->
-            <div class="card card-secondary">
-                <div class="card-header">
-                  <h3 class="card-title">Quick Example</h3>
-                </div>
-                <!-- /.card-header -->
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
 
-                <div class="card-body">
-                    <h1>Content</h1>
-                </div>
-                  <!-- /.card-body -->
-  
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
+              <!-- Offices -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h3>{{ $offices_count }}</h3>
 
+                    <p>@lang('site.offices')</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-building"></i>
+                  </div>
+                  <a href="{{ route('dashboard.offices.index') }}" class="small-box-footer">@lang('site.read') <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
               </div>
-              <!-- /.card -->
+              <!-- ./col -->
+
+              <!-- Schools -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>{{ $schools_count }}</h3>
+
+                    <p>@lang('site.schools')</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-school"></i>
+                  </div>
+                  <a href="{{ route('dashboard.schools.index') }}" class="small-box-footer">@lang('site.read') <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+
+              <!-- Teachers -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3>{{ $teachers_count }}</h3>
+
+                    <p>@lang('site.teachers')</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                  </div>
+                  <a href="{{ route('dashboard.teachers.index') }}" class="small-box-footer">@lang('site.read') <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+
+              <!-- Students -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-gradient-primary">
+                  <div class="inner">
+                    <h3>{{ $students_count }}</h3>
+
+                    <p>@lang('site.students')</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-user-graduate"></i>
+                  </div>
+                  <a href="{{ route('dashboard.students.index') }}" class="small-box-footer">@lang('site.read') <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+
+              <!-- Admin Users -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                  <div class="inner">
+                    <h3>{{ $users_count }}</h3>
+
+                    <p>@lang('site.users')</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-user-plus"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">@lang('site.read') <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+
+            </div>
+            <!-- /.row -->            
 
           </div><!-- /.container-fluid -->
         </section>

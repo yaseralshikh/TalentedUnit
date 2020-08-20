@@ -28,7 +28,7 @@
           <div class="container-fluid">
 
             <!-- general form elements -->
-            <div class="card card-dark">
+            <div class="card card-info">
 
                 <div class="card-header">
                   <h5 class="card-title">@lang('site.add')</h5>

@@ -31,16 +31,8 @@
     <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css">
     <!-- Custom style for RTL -->
     <link rel="stylesheet" href="{{ asset('dashboard_files/dist/css/custom.css') }}">
-
-    <style>
-      body, h1, h2, h3, h4, h5, h6 {
-          font-family: 'Cairo', sans-serif !important;
-      }
-
-      .opacity-06 {
-        opacity:0.6!important;
-      }
-    </style>
+    <!-- Custom style for yaser -->
+    <link rel="stylesheet" href="{{ asset('dashboard_files/dist/css/yaser.css') }}">
 
     {{--noty--}}
     <link rel="stylesheet" href="{{ asset('dashboard_files/plugins/noty/noty.css') }}">
@@ -134,10 +126,17 @@
               n.show();
       
           });//end of delete
+
+          $("#session-alert").fadeTo(5000, 500).slideUp(500, function () {
+              $("#session-alert").slideUp(500);
+          });
       
       });//end of ready
     </script>  
 
-  @stack('scripts')
+    <!-- Custom Script -->
+    <script src="{{ asset('dashboard_files/dist/js/custom/image_preview.js') }}"></script>
+    
+    @yield('scripts')
   </body>
 </html>

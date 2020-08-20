@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\OfficeExport;
 use App\Http\Controllers\Controller;
+use App\Imports\OfficeImport;
 use Illuminate\Http\Request;
 use App\Office;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OfficeController extends Controller
 {
@@ -22,6 +25,40 @@ class OfficeController extends Controller
         })->paginate(10);
 
         return view('dashboard.offices.index', compact('offices'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new OfficeExport(), 'office.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'import_file' => 'required',
+        ]);  
+
+        $RadioOptions = $request->inlineRadioOptions;
+ 
+        if ($RadioOptions == 'add') {
+
+            // this for import with Append Data .
+            Excel::import(new OfficeImport(), $request->file('import_file'));
+
+        } else {
+
+            // this for remove data and Add now Data .
+            $offices = Excel::toCollection(new OfficeImport(), $request->file('import_file'));
+
+            foreach ($offices[0] as $office) {
+                Office::where('id', $office[0])->update([
+                    'name' => $office[1],
+                ]);
+            } 
+                   
+        }
+
+        return redirect()->route('dashboard.offices.index');
     }
 
     /**
