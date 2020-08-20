@@ -68,28 +68,42 @@ class StudentController extends Controller
  
         if ($RadioOptions == 'add') {
 
-            // this for import with Append Data .
-            Excel::import(new StudentImport(), $request->file('import_file'));
+            try {
+
+                // this for import with Append Data .
+                Excel::import(new StudentImport(), $request->file('import_file'));
+
+            } catch (\Exception $e) {
+            
+                session()->flash('error',  'ملق اكسل غير مطابق !!');
+                             
+            }
 
         } else {
 
-            // this for remove data and Add now Data .
-            $students = Excel::toCollection(new StudentImport(), $request->file('import_file'));
+            try {
+                // this for remove data and Add now Data .
+                $students = Excel::toCollection(new StudentImport(), $request->file('import_file'));
 
-            foreach ($students[0] as $student) {
-                Student::where('id', $student[0])->update([
-                    'name' => $student[1],
-                    'idcard' => $student[2],
-                    'mobile' => $student[3],
-                    'email' => $student[4],
-                    'stage' => $student[5],
-                    'class' => $student[6],
-                    'degree' => $student[7],
-                    'image' => $student[8],
-                    'office_id' => $student[9],
-                    'school_id' => $student[10],
-                    'teacher_id' => $student[11],
-                ]);
+                foreach ($students[0] as $student) {
+                    Student::where('id', $student[0])->update([
+                        'name' => $student[1],
+                        'idcard' => $student[2],
+                        'mobile' => $student[3],
+                        'email' => $student[4],
+                        'stage' => $student[5],
+                        'class' => $student[6],
+                        'degree' => $student[7],
+                        'office_id' => $student[8],
+                        'school_id' => $student[9],
+                        'teacher_id' => $student[10],
+                    ]);
+                }                
+
+            } catch (\Exception $e) {
+            
+                session()->flash('error',  'ملق اكسل غير مطابق !!');
+                             
             }                    
         }
 

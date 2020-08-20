@@ -5,3 +5,18 @@
         @endforeach
     </div>
 @endif
+
+@if (session('error'))
+
+    <script>
+        new Noty({
+            type: 'error',
+            theme: 'bootstrap-v4',
+            layout: 'topRight',
+            text: "{{ session('error') }}",
+            timeout: 1500,
+            killer: true
+        }).show();
+    </script>
+
+@endif

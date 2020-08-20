@@ -76,26 +76,40 @@ class TeacherController extends Controller
  
         if ($RadioOptions == 'add') {
 
-            // this for import with Append Data .
-            Excel::import(new TeacherImport(), $request->file('import_file'));
+            try {
+                // this for import with Append Data .
+                Excel::import(new TeacherImport(), $request->file('import_file'));
+
+            } catch (\Exception $e) {
+            
+                session()->flash('error',  'ملق اكسل غير مطابق !!');
+                             
+            }
 
         } else {
 
-            // this for remove data and Add now Data .
-            $teachers = Excel::toCollection(new TeacherImport(), $request->file('import_file'));
+            try {
+                // this for remove data and Add now Data .
+                $teachers = Excel::toCollection(new TeacherImport(), $request->file('import_file'));
 
-            foreach ($teachers[0] as $teacher) {
-                Teacher::where('id', $teacher[0])->update([
-                    'name' => $teacher[1],
-                    'idcard' => $teacher[2],
-                    'mobile' => $teacher[3],
-                    'email' => $teacher[4],
-                    'specialization' => $teacher[5],
-                    'image' => $teacher[6],
-                    'office_id' => $teacher[7],
-                    'school_id' => $teacher[8],
-                ]);
-            } 
+                foreach ($teachers[0] as $teacher) {
+                    Teacher::where('id', $teacher[0])->update([
+                        'name' => $teacher[1],
+                        'idcard' => $teacher[2],
+                        'mobile' => $teacher[3],
+                        'email' => $teacher[4],
+                        'specialization' => $teacher[5],
+                        'image' => $teacher[6],
+                        'office_id' => $teacher[7],
+                        'school_id' => $teacher[8],
+                    ]);
+                } 
+
+            } catch (\Exception $e) {
+            
+                session()->flash('error',  'ملق اكسل غير مطابق !!');
+                             
+            }
                    
         }
 

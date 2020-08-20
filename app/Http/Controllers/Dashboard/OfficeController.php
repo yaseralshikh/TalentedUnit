@@ -42,20 +42,33 @@ class OfficeController extends Controller
  
         if ($RadioOptions == 'add') {
 
-            // this for import with Append Data .
-            Excel::import(new OfficeImport(), $request->file('import_file'));
+            
+            try {
+                // this for import with Append Data .
+                Excel::import(new OfficeImport(), $request->file('import_file'));
+                
+            } catch (\Exception $e) {
+                 session()->flash('error',  'ملق اكسل غير مطابق !!');
+            }
 
         } else {
 
-            // this for remove data and Add now Data .
-            $offices = Excel::toCollection(new OfficeImport(), $request->file('import_file'));
+            try {
 
-            foreach ($offices[0] as $office) {
-                Office::where('id', $office[0])->update([
-                    'name' => $office[1],
-                ]);
-            } 
-                   
+                // this for remove data and Add now Data .
+                $offices = Excel::toCollection(new OfficeImport(), $request->file('import_file'));
+
+                foreach ($offices[0] as $office) {
+                    Office::where('id', $office[0])->update([
+                        'name' => $office[1],
+                    ]);
+                } 
+
+            } catch (\Exception $e) {
+
+                 session()->flash('error',  'ملق اكسل غير مطابق !!');
+                 
+            }      
         }
 
         return redirect()->route('dashboard.offices.index');

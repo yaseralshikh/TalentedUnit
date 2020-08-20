@@ -71,26 +71,39 @@ class SchoolController extends Controller
  
         if ($RadioOptions == 'add') {
 
-            // this for import with Append Data .
+            try {
+
+                // this for import with Append Data .
             Excel::import(new SchoolImport(), $request->file('import_file'));
+                
+            } catch (\Exception $e) {
+                 session()->flash('error',  'ملق اكسل غير مطابق !!');
+            }
 
         } else {
 
-            // this for remove data and Add now Data .
-            $schools = Excel::toCollection(new SchoolImport(), $request->file('import_file'));
+            try {
 
-            foreach ($schools[0] as $school) {
-                School::where('id', $school[0])->update([
-                    'name' => $school[1],
-                    'office_id' => $school[2],
-                    'moe_id' => $school[3],
-                    'stage' => $school[4],
-                    'manager' => $school[5],
-                    'mobile' => $school[6],
-                    'email' => $school[7],
-                ]);
-            } 
-                   
+                // this for remove data and Add now Data .
+                $schools = Excel::toCollection(new SchoolImport(), $request->file('import_file'));
+
+                foreach ($schools[0] as $school) {
+                    School::where('id', $school[0])->update([
+                        'name' => $school[1],
+                        'office_id' => $school[2],
+                        'moe_id' => $school[3],
+                        'stage' => $school[4],
+                        'manager' => $school[5],
+                        'mobile' => $school[6],
+                        'email' => $school[7],
+                    ]);
+                }
+
+            } catch (\Exception $e) {
+
+                session()->flash('error',  'ملق اكسل غير مطابق !!');
+
+            }
         }
 
         return redirect()->route('dashboard.schools.index');

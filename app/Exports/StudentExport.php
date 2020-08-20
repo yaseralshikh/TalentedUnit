@@ -27,7 +27,6 @@ class StudentExport implements FromCollection , WithHeadings
             'stage',
             'class',
             'degree',
-            'image',
             'office_id',
             'school_id',
             'teacher_id',

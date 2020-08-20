@@ -22,10 +22,9 @@ class StudentImport implements ToModel
             'stage' => $row[5],
             'class' => $row[6],
             'degree' => $row[7],
-            'image' => $row[8],
-            'office_id' => $row[9],
-            'school_id' => $row[10],
-            'teacher_id' => $row[11],
+            'office_id' => $row[8],
+            'school_id' => $row[9],
+            'teacher_id' => $row[10],
         ]);
     }
 }
