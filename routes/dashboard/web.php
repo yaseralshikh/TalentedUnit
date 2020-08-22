@@ -26,6 +26,8 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth','role:super_a
     Route::resource('students', 'StudentController')->except(['show']);
     Route::get('/students/export', 'StudentController@export')->name('student_excel_export');
     Route::post('/students/import', 'StudentController@import')->name('student_excel_import');
-    
+
+    // supervisors routes
+    Route::resource('supervisors', 'SupervisorController')->except(['show']);
 
 });//end of dashboard routes

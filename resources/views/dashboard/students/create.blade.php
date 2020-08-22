@@ -186,6 +186,7 @@
         });
         function dependentSchools() {
             $('option', $('#school_id')).remove();
+            $('option', $('#teacher_id')).remove();
             var translate = @json( __('site.select_school') );
             $('#school_id').append($('<option disa></option>').val('').html(translate));
             var officeIdVal = $('#office_id').val() != null ? $('#office_id').val() : '{{ old('office_id') }}';

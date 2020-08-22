@@ -13,6 +13,16 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class SchoolController extends Controller
 {
+    public function __construct()
+    {
+        //create read update delete
+        $this->middleware(['permission:schools_read'])->only('index');
+        $this->middleware(['permission:schools_create'])->only('create');
+        $this->middleware(['permission:schools_update'])->only('edit');
+        $this->middleware(['permission:schools_delete'])->only('destroy');
+        $this->middleware(['permission:schools_excel'])->only(['export','import']);
+
+    }//end of constructor
     /**
      * Display a listing of the resource.
      *

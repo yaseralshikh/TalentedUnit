@@ -13,18 +13,21 @@ return [
 
     'roles_structure' => [
         'super_admin' => [
-            'users' => 'c,r,u,d',
-            'offices' => 'c,r,u,d',
-            'schools' => 'c,r,u,d',
-            'teachers' => 'c,r,u,d',
-            'students' => 'c,r,u,d',
+            'users' => 'c,r,u,d,e',
+            'offices' => 'c,r,u,d,e',
+            'schools' => 'c,r,u,d,e',
+            'teachers' => 'c,r,u,d,e',
+            'students' => 'c,r,u,d,e',
+            'supervisors' => 'c,r,u,d',
         ],
+        'admin' => [],
     ],
 
     'permissions_map' => [
         'c' => 'create',
         'r' => 'read',
         'u' => 'update',
-        'd' => 'delete'
+        'd' => 'delete',
+        'e' => 'excel'
     ]
 ];

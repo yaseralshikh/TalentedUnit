@@ -14,6 +14,17 @@ use App\Imports\TeacherImport;
 
 class TeacherController extends Controller
 {
+    public function __construct()
+    {
+        //create read update delete
+        $this->middleware(['permission:teachers_read'])->only('index');
+        $this->middleware(['permission:teachers_create'])->only('create');
+        $this->middleware(['permission:teachers_update'])->only('edit');
+        $this->middleware(['permission:teachers_delete'])->only('destroy');
+        $this->middleware(['permission:teachers_excel'])->only(['export','import']);
+
+    }//end of constructor
+
     /**
      * Display a listing of the resource.
      *

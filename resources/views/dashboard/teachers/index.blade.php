@@ -59,7 +59,7 @@
                           <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-search"></i> @lang('site.search')</button>
                           <a href="{{ route('dashboard.teachers.index') }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.reset')"><i class="fas fa-sync-alt"></i></a>
 
-                          @if (auth()->user()->hasPermission('teachers_create'))
+                          @if (auth()->user()->hasPermission('teachers_excel'))
                               <a href="{{ route('dashboard.teacher_excel_export') }}" class="btn btn-success btn-sm float-right"><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</a>
                           @else
                               <a href="#" class="btn btn-success btn-sm float-right disabled"><i class="far fa-file-excel"></i> @lang('site.export')</a>

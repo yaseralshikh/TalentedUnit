@@ -12,6 +12,16 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class OfficeController extends Controller
 {
+    public function __construct()
+    {
+        //create read update delete
+        $this->middleware(['permission:offices_read'])->only('index');
+        $this->middleware(['permission:offices_create'])->only('create');
+        $this->middleware(['permission:offices_update'])->only('edit');
+        $this->middleware(['permission:offices_delete'])->only('destroy');
+        $this->middleware(['permission:offices_excel'])->only(['export','import']);
+
+    }//end of constructor
     /**
      * Display a listing of the resource.
      *

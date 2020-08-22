@@ -12,6 +12,17 @@ use App\Imports\StudentImport;
 
 class StudentController extends Controller
 {
+    public function __construct()
+    {
+        //create read update delete
+        $this->middleware(['permission:students_read'])->only('index');
+        $this->middleware(['permission:students_create'])->only('create');
+        $this->middleware(['permission:students_update'])->only('edit');
+        $this->middleware(['permission:students_delete'])->only('destroy');
+        $this->middleware(['permission:students_excel'])->only(['export','import']);
+
+    }//end of constructor
+
     /**
      * Display a listing of the resource.
      *

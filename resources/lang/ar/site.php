@@ -122,6 +122,9 @@ return [
     'secondary_class3' => 'الثالث ثانوي',
     'degree' => 'درجة مقياس موهبة',
 
+    // supervisors
+    'supervisors' => 'المشرفين',
+
 
     'image_attributes' => 'الابعاد المناسب للصورة 400×400 بكسل',
     'notAvailable' => 'غير متوفر',
