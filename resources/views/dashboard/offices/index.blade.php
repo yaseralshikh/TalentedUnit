@@ -42,7 +42,7 @@
 
                           <a href="{{ route('dashboard.offices.index') }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.reset')"><i class="fas fa-sync-alt"></i></a>
 
-                          @if (auth()->user()->hasPermission('offices_excel'))
+                          @if (auth()->user()->hasPermission('offices_export'))
                               <a href="{{ route('dashboard.office_excel_export') }}" class="btn btn-success btn-sm float-right"><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</a>
                           @else
                               <a href="#" class="btn btn-success btn-sm float-right disabled"><i class="far fa-file-excel"></i> @lang('site.export')</a>
@@ -60,7 +60,7 @@
 
                 <div class="row">
                   <div class="col-md-12">
-                      @if (auth()->user()->hasPermission('offices_create'))
+                      @if (auth()->user()->hasPermission('offices_import'))
                           @include('partials._errors')
                           <form class="m-3" role="form" action="{{ route('dashboard.office_excel_import') }}" method="POST" enctype="multipart/form-data" >
                               @csrf
@@ -86,7 +86,7 @@
                               </div>
                           </form>
                       @else
-                          <a href="#" class="btn btn-warning disabled"><i class="far fa-file-excel"></i> @lang('site.import')</a>
+                          <a href="#" class="btn btn-warning btn-sm float-right ml-3 disabled"><i class="far fa-file-excel"></i> @lang('site.import')</a>
                       @endif
                   </div>
                 </div>

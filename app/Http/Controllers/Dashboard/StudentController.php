@@ -19,7 +19,8 @@ class StudentController extends Controller
         $this->middleware(['permission:students_create'])->only('create');
         $this->middleware(['permission:students_update'])->only('edit');
         $this->middleware(['permission:students_delete'])->only('destroy');
-        $this->middleware(['permission:students_excel'])->only(['export','import']);
+        $this->middleware(['permission:students_export'])->only('export');
+        $this->middleware(['permission:students_import'])->only('import');
 
     }//end of constructor
 

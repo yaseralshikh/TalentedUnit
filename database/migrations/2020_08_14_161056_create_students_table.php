@@ -22,14 +22,10 @@ class CreateStudentsTable extends Migration
             $table->string('stage');
             $table->string('class');
             $table->string('degree');
-            $table->biginteger('office_id')->unsigned();
-            $table->biginteger('school_id')->unsigned();
-            $table->biginteger('teacher_id')->unsigned();
+            $table->foreignId('office_id')->constrained()->onDelete('cascade');
+            $table->foreignId('school_id')->constrained()->onDelete('cascade');
+            $table->foreignId('teacher_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-
-            $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
-            $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
-            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
         });
     }
 

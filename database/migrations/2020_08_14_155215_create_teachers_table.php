@@ -21,12 +21,9 @@ class CreateTeachersTable extends Migration
             $table->string('email')->nullable();
             $table->string('specialization')->nullable();
             $table->string('image')->default('default.png');
-            $table->biginteger('office_id')->unsigned();
-            $table->biginteger('school_id')->unsigned();
+            $table->foreignId('office_id')->constrained()->onDelete('cascade');
+            $table->foreignId('school_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-
-            $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
-            $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
         });
     }
 

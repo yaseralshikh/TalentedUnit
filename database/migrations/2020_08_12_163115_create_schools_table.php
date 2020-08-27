@@ -16,15 +16,13 @@ class CreateSchoolsTable extends Migration
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->biginteger('office_id')->unsigned();
+            $table->foreignId('office_id')->constrained()->onDelete('cascade');
             $table->string('moe_id');
             $table->string('stage');
             $table->string('manager')->nullable();
             $table->string('mobile')->nullable();
             $table->string('email')->nullable();
             $table->timestamps();
-
-            $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
         });
     }
 

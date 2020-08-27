@@ -21,7 +21,8 @@ class TeacherController extends Controller
         $this->middleware(['permission:teachers_create'])->only('create');
         $this->middleware(['permission:teachers_update'])->only('edit');
         $this->middleware(['permission:teachers_delete'])->only('destroy');
-        $this->middleware(['permission:teachers_excel'])->only(['export','import']);
+        $this->middleware(['permission:teachers_export'])->only('export');
+        $this->middleware(['permission:teachers_import'])->only('import');
 
     }//end of constructor
 

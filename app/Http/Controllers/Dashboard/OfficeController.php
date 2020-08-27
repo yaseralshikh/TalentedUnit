@@ -19,7 +19,8 @@ class OfficeController extends Controller
         $this->middleware(['permission:offices_create'])->only('create');
         $this->middleware(['permission:offices_update'])->only('edit');
         $this->middleware(['permission:offices_delete'])->only('destroy');
-        $this->middleware(['permission:offices_excel'])->only(['export','import']);
+        $this->middleware(['permission:offices_export'])->only('export');
+        $this->middleware(['permission:offices_import'])->only('import');
 
     }//end of constructor
     /**

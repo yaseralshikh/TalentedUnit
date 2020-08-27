@@ -20,7 +20,8 @@ class SchoolController extends Controller
         $this->middleware(['permission:schools_create'])->only('create');
         $this->middleware(['permission:schools_update'])->only('edit');
         $this->middleware(['permission:schools_delete'])->only('destroy');
-        $this->middleware(['permission:schools_excel'])->only(['export','import']);
+        $this->middleware(['permission:schools_export'])->only('export');
+        $this->middleware(['permission:schools_import'])->only('import');
 
     }//end of constructor
     /**

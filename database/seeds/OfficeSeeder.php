@@ -18,6 +18,7 @@ class OfficeSeeder extends Seeder
             'مكتب تعليم المسارحة والحرث',
             'مكتب تعليم العارضة',
             'مكتب تعليم فرسان',
+            'ادارة الموهوبين',
         ];
 
         foreach ($offices as $office) {

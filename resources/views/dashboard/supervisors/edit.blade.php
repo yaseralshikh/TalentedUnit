@@ -9,12 +9,12 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">@lang('site.teachers')</h1>
+                <h1 class="m-0 text-dark">@lang('site.supervisors')</h1>
               </div><!-- /.col -->
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item active">@lang('site.edit')</li>
-                  <li class="breadcrumb-item"><a href="{{ route('dashboard.teachers.index')}}">@lang('site.teachers')</a></li>
+                  <li class="breadcrumb-item"><a href="{{ route('dashboard.supervisors.index')}}">@lang('site.supervisors')</a></li>
                   <li class="breadcrumb-item"><a href="{{ route('dashboard.welcome')}}">@lang('site.dashboard') <i class="fas fa-tachometer-alt"></i></a></li>
                 </ol>
               </div><!-- /.col -->
@@ -36,7 +36,7 @@
 
                 @include('partials._errors')
 
-                <form action="{{ route('dashboard.teachers.update', $teacher->id) }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('dashboard.supervisors.update', $user->id) }}" method="post" enctype="multipart/form-data">
 
                   {{ csrf_field() }}
                   {{ method_field('PUT') }}
@@ -48,80 +48,107 @@
                         <!-- text input -->
                         <div class="form-group">
                           <label>@lang('site.name')</label>
-                          <input type="text" name="name" class="form-control" value="{{ $teacher->name }}">
+                          <input type="text" name="name" class="form-control" value="{{ $user->name }}">
                         </div>
                       </div>
-
                       <div class="col-sm-6">
                         <div class="form-group">
                           <label>@lang('site.idcard')</label>
-                          <input type="number" name="idcard" class="form-control" value="{{ $teacher->idcard }}">
+                          <input type="number" name="idcard" class="form-control" value="{{ $user->idcard }}">
                         </div>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-sm-6">
-                        <!-- text input -->
+                        <div class="form-group">
+                          <label>@lang('site.mobile')</label>
+                          <input type="number" name="mobile" class="form-control" value="{{ $user->mobile }}">
+                        </div>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label>@lang('site.email')</label>
+                          <input type="email" name="email" class="form-control" value="{{ $user->email }}">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
                         <div class="form-group">
                           <label>@lang('site.office')</label>
                           <select name="office_id" id="office_id" class="form-control select_size">
                             @foreach ($offices as $office)
-                                <option value="{{ $office->id }}" {{ $teacher->office_id == $office->id ? 'selected' : '' }}>{{ $office->name }}</option>
+                                <option value="{{ $office->id }}" {{ $user->office_id == $office->id ? 'selected' : '' }}>{{ $office->name }}</option>
                             @endforeach
                           </select>
                         </div>
                       </div>
+
                       <div class="col-sm-6">
                         <div class="form-group">
-                          <label>@lang('site.school')</label>
-                          <select name="school_id" id="school_id" class="form-control select_size">
-
-                          </select>
+                          <label>@lang('site.image')</label>
+                          <input type="file" name="image" class="form-control image">
                         </div>
+
+                        <div class="form-group">
+                          <img src="{{ $user->image_path }}"  style="width: 100px" class="img-thumbnail image-preview" alt="">
+                      </div> 
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="form-group">
-                          @php
-                            $specializations = [trans('site.religion'), trans('site.quran'), trans('site.sciences')
-                                              , trans('site.mathematics'), trans('site.miology'), trans('site.chemistry')
-                                              , trans('site.physics'), trans('site.social_studies'), trans('site.art')
-                                              , trans('site.Physical'), trans('site.english'), trans('site.psychology')
-                                              , trans('site.computer'), trans('site.arabic_language'), trans('site.other')];
-                          @endphp
-
-                          <label>@lang('site.specialization')</label>
-                          <select name="specialization" class="form-control select_size">
-                            @foreach ($specializations as $specialization)
-                              <option value="{{ $specialization }}" {{ $teacher->specialization == $specialization ? 'selected' : '' }}>{{ $specialization }}</option>  
-                            @endforeach
-                          </select>
-                        </div>
+                          <label>@lang('site.password')</label>
+                          <input type="password" name="password" class="form-control">
+                          <small id="PasswordHelp" class="form-text text-muted">@lang('site.passwordHelp')</small>
                       </div>
+
+                      </div>
+
                       <div class="col-sm-6">
                         <div class="form-group">
-                          <label>@lang('site.mobile')</label>
-                          <input type="number" name="mobile" class="form-control" value="{{ $teacher->mobile }}">
-                        </div>
+                          <label>@lang('site.password_confirmation')</label>
+                          <input type="password" name="password_confirmation" class="form-control">
+                          <small id="PasswordHelp" class="form-text text-muted">@lang('site.passwordHelp')</small>
+                      </div>
                       </div>
                     </div>
 
-                    <div class="form-group">
-                      <label>@lang('site.email')</label>
-                      <input type="email" name="email" class="form-control" value="{{  $teacher->email }}">
-                    </div>
+                    <div class="form-group mt-3">
+                      <div class="card">
+                        <div class="card-header p-2">
+                          <label>@lang('site.permissions')</label>
 
-                    <div class="form-group">
-                      <label>@lang('site.image')</label>
-                      <input type="file" name="image" class="form-control image">
-                      <small id="banner_imageHelp" class="form-text text-muted">@lang('site.image_attributes')</small>
-                    </div>
+                          @php
+                              $models = ['offices', 'schools', 'teachers', 'students', 'supervisors'];
+                              $maps = ['create', 'read', 'update', 'delete', 'import', 'export'];
+                          @endphp
 
-                    <div class="form-group">
-                        <img src="{{ $teacher->image_path }}" style="width: 100px" class="img-thumbnail image-preview" alt="">
+                          <ul class="nav nav-tabs">
+                            @foreach ($models as $index=>$model)
+                              <li class="nav-item"><a class="nav-link {{ $index == 0 ? 'active' : '' }}" href="#{{ $model }}" data-toggle="tab">@lang('site.' . $model)</a></li>
+                            @endforeach
+                          </ul>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                          <div class="tab-content">
+                            @foreach ($models as $index=>$model)
+                              <div class="tab-pane {{ $index == 0 ? 'active' : '' }}" id="{{ $model }}">
+                                @foreach ($maps as $map)
+                                  <label class="ml-3"><input type="checkbox" name="permissions[]" {{ $user->hasPermission( $model . '_' . $map ) ? 'checked' : '' }} value="{{ $model . '_' . $map }}"> @lang('site.' . $map)</label>
+                                @endforeach
+                                <!-- /.post -->
+                              </div>
+                              <!-- /.tab-pane -->
+                            @endforeach
+                          </div>
+                          <!-- /.tab-content -->
+                        </div><!-- /.card-body -->
+                      </div>
                     </div>
 
                   </div>
@@ -129,7 +156,7 @@
 
                   <div class="card-footer">
                     <div class="form-group">
-                      <button type="submit" class="btn btn-primary"><i class="fas fa-edit"></i> @lang('site.edit')</button>
+                      <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> @lang('site.edit')</button>
                     </div>
                   </div>
                   <!-- /.card-footer -->
@@ -144,29 +171,4 @@
         <!-- /.content -->
       </div>
 
-@endsection
-
-@section('scripts')
-
-  <script>
-    $(function () {
-        dependentSchools();
-        $(document).on('change', '#office_id', function() {
-            dependentSchools();
-            return false;
-        });
-        function dependentSchools() {
-            $('option', $('#school_id')).remove();
-            var officeIdVal = $('#office_id').val() != null ? $('#office_id').val() : '{{ old('office_id') }}';
-            $.get("{{ route('dashboard.get_schools') }}", { office_id: officeIdVal }, function (data) {
-                $.each(data, function(val, text) {
-                    var selectedVal = val == '{{ $teacher->school_id }}' ? "selected" : "";
-                    $('#school_id').append($('<option ' + selectedVal + '></option>').val(val).html(text));
-                    console.log(val,text);
-                })
-            }, "json");
-        }
-    });    
-  </script>
-    
 @endsection

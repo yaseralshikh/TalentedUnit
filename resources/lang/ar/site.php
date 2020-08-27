@@ -124,6 +124,9 @@ return [
 
     // supervisors
     'supervisors' => 'المشرفين',
+    'SupervisorsSearchHelp' => 'البحث : باسم المشرف ، الجةال ، الايميل ، السجل المدني.',
+    'passwordHelp' => 'اتركها فارغة اذا كنت لا تريد تغيير كلمة المرور.',
+    
 
 
     'image_attributes' => 'الابعاد المناسب للصورة 400×400 بكسل',

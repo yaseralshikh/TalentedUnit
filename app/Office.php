@@ -26,6 +26,12 @@ class Office extends Model
         
     }//end of students
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+        
+    }//end of teachers
+
     public function getPaginatedSchoolsAttribute(){
         return $this->schools()->paginate(20);
 

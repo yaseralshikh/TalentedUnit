@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'idcard', 'mobile', 'image',
+        'name', 'email', 'password', 'idcard', 'mobile', 'image', 'office_id' ,
     ];
 
     /**
@@ -46,5 +46,11 @@ class User extends Authenticatable
         return asset('uploads/user_images/' . $this->image);
 
     }//end of get image path
+
+    public function office()
+    {
+        return $this->belongsTo(Office::class);
+
+    }//end fo office
     
 }

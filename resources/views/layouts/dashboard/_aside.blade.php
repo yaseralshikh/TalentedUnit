@@ -68,12 +68,9 @@
             </a>
           </li>
         @endif
-        <hr>
-
-        <img src="{{ asset('dashboard_files/images/line.png') }}" alt="Line" class="">
 
         <!-- Sidebar supervisors -->
-        @if (auth()->user()->hasPermission('users_read'))
+        @if (auth()->user()->hasPermission('supervisors_read'))
           <li class="nav-item">
             <a href="{{ route('dashboard.supervisors.index') }}" class="nav-link">
               <i class="nav-icon fas fa-user-shield"></i>

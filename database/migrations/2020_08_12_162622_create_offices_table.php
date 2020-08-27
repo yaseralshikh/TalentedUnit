@@ -18,6 +18,10 @@ class CreateOfficesTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
+
+        Schema::table('users', function($table) {
+            $table->foreignId('office_id')->constrained()->onDelete('cascade')->nullable();
+        });
     }
 
     /**

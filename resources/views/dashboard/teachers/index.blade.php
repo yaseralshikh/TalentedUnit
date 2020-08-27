@@ -59,7 +59,7 @@
                           <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-search"></i> @lang('site.search')</button>
                           <a href="{{ route('dashboard.teachers.index') }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.reset')"><i class="fas fa-sync-alt"></i></a>
 
-                          @if (auth()->user()->hasPermission('teachers_excel'))
+                          @if (auth()->user()->hasPermission('teachers_export'))
                               <a href="{{ route('dashboard.teacher_excel_export') }}" class="btn btn-success btn-sm float-right"><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</a>
                           @else
                               <a href="#" class="btn btn-success btn-sm float-right disabled"><i class="far fa-file-excel"></i> @lang('site.export')</a>
@@ -77,7 +77,7 @@
 
                 <div class="row">
                   <div class="col-md-12">
-                      @if (auth()->user()->hasPermission('teachers_create'))
+                      @if (auth()->user()->hasPermission('teachers_import'))
                           @include('partials._errors')
                           <form class="m-3" role="form" action="{{ route('dashboard.teacher_excel_import') }}" method="POST" enctype="multipart/form-data" >
                               @csrf
@@ -103,7 +103,7 @@
                               </div>
                           </form>
                       @else
-                          <a href="#" class="btn btn-warning disabled"><i class="far fa-file-excel"></i> @lang('site.import')</a>
+                          <a href="#" class="btn btn-warning btn-sm float-right ml-3 disabled"><i class="far fa-file-excel"></i> @lang('site.import')</a>
                       @endif
                   </div>
                 </div>                
@@ -120,7 +120,7 @@
                           <tr>
                               <th>#</th>
                               <th>@lang('site.name')</th>
-                              {{-- <th class="text-center">@lang('site.image')</th> --}}
+                              <th class="text-center">@lang('site.image')</th>
                               <th width="120px" class="text-center">@lang('site.idcard')</th>
                               <th class="text-center">@lang('site.mobile')</th>
                               <th class="text-center">@lang('site.email')</th>
@@ -141,7 +141,7 @@
                                     <img src="{{ $teacher->image_path }}" style="width: 50px;" class="img-thumbnail" alt="">
                                   </td>
                                   <td class="text-center">{{ $teacher->idcard }}</td>
-                                  {{-- <td class="text-center">{{ $teacher->mobile }}</td> --}}
+                                  <td class="text-center">{{ $teacher->mobile }}</td>
                                   <td class="text-center english_text">{{ $teacher->email }}</td>
                                   <td class="text-center">{{ $teacher->office->name }}</td>
                                   <td class="text-center">{{ $teacher->school->name }}</td>
