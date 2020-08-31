@@ -49,7 +49,7 @@ class TeacherController extends Controller
 
             })->when($request->search, function ($q) use ($request) {
 
-                return $q->where('name', 'like' , '%' . $request->search . '%')
+                return $q->where('name', 'like' , $request->search . '%')
                         ->orWhere('idcard', 'like', '%' . $request->search . '%')
                         ->orWhere('specialization', 'like', '%' . $request->search . '%')
                         ->orWhere('mobile', 'like', '%' . $request->search . '%')

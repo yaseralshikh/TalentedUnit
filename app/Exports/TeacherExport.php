@@ -34,7 +34,7 @@ class TeacherExport implements FromCollection , WithHeadings , ShouldAutoSize , 
 
         })->when($this->request->search, function ($q) {
 
-            return $q->where('name', 'like' , '%' . $this->request->search . '%')
+            return $q->where('name', 'like' , $this->request->search . '%')
                     ->orWhere('idcard', 'like', '%' . $this->request->search . '%')
                     ->orWhere('specialization', 'like', '%' . $this->request->search . '%')
                     ->orWhere('mobile', 'like', '%' . $this->request->search . '%')

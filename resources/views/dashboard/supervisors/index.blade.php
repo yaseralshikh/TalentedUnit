@@ -69,7 +69,7 @@
                               <th class="text-center">@lang('site.email')</th>
                               <th class="text-center">@lang('site.office')</th>
                               <th class="text-center">@lang('site.related_schools')</th>
-                              <th width="20%" colspan="2" class="text-center">@lang('site.action')</th>
+                              <th width="10%" colspan="2" class="text-center">@lang('site.action')</th>
                           </tr>
                         </thead>
                         
@@ -88,7 +88,7 @@
                                   <td class="text-center" width="11%"><a href="{{ route('dashboard.schools.index', ['office_id' => $supervisor->office->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-school"></i></a></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('supervisors_update'))
-                                          <a href="{{ route('dashboard.supervisors.edit', $supervisor->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> @lang('site.edit')</a>
+                                          <a href="{{ route('dashboard.supervisors.edit', $supervisor->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"><i class="fa fa-edit"></i></a>
                                       @else
                                           <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-edit"></i> @lang('site.edit')</a>
                                       @endif
@@ -98,7 +98,7 @@
                                           <form action="{{ route('dashboard.supervisors.destroy', $supervisor->id) }}" method="post" style="display: inline-block">
                                               {{ csrf_field() }}
                                               {{ method_field('delete') }}
-                                              <button type="submit" class="btn btn-danger delete btn-sm"><i class="fa fa-trash"></i> @lang('site.delete')</button>
+                                              <button type="submit" class="btn btn-danger delete btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.delete')"><i class="fa fa-trash"></i></button>
                                           </form><!-- end of form -->
                                       @else
                                           <button class="btn btn-danger btn-sm disabled"><i class="fa fa-trash"></i> @lang('site.delete')</button>

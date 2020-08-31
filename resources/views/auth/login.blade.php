@@ -66,13 +66,13 @@
 							  <div class="icheck-primary">
 								<input type="checkbox" id="remember" name="remember" class="form-check-input"  {{ old('remember') ? 'checked' : '' }}>
 								<label for="remember">
-								  {{ __('Remember Me') }}
+								  @lang('site.remember_me')
 								</label>
 							  </div>
 							</div>
 							<!-- /.col -->
 							<div class="col-4">
-							  <button type="submit" class="btn btn-primary btn-block ">{{ __('Login') }}</button>
+							  <button type="submit" class="btn btn-primary btn-block ">@lang('site.login')</button>
 							</div>
 							<!-- /.col -->
 						  </div>
@@ -80,7 +80,7 @@
 			  
 						@if (Route::has('password.request'))
 						  <a class="btn btn-link" href="{{ route('password.request') }}">
-							  {{ __('Forgot Your Password?') }}
+							  @lang('site.forget_password')
 						  </a>
 						@endif
 			  

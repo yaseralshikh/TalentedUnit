@@ -128,7 +128,7 @@
                               <th class="text-center">@lang('site.school')</th>
                               <th class="text-center">@lang('site.specialization')</th>
                               <th class="text-center">@lang('site.students')</th>
-                              <th width="18%" colspan="2" class="text-center">@lang('site.action')</th>
+                              <th width="10%" colspan="2" class="text-center">@lang('site.action')</th>
                           </tr>
                         </thead>
                         
@@ -149,7 +149,7 @@
                                   <td class="text-center"><a href="{{ route('dashboard.students.index', ['teacher_id' => $teacher->id]) }}" class="btn btn-success btn-sm"><i class="nav-icon fas fa-chalkboard-teacher"></i></a></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('teachers_update'))
-                                          <a href="{{ route('dashboard.teachers.edit', $teacher->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> @lang('site.edit')</a>
+                                          <a href="{{ route('dashboard.teachers.edit', $teacher->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"><i class="fa fa-edit"></i></a>
                                       @else
                                           <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-edit"></i> @lang('site.edit')</a>
                                       @endif
@@ -159,7 +159,7 @@
                                           <form action="{{ route('dashboard.teachers.destroy', $teacher->id) }}" method="post" style="display: inline-block">
                                               {{ csrf_field() }}
                                               {{ method_field('delete') }}
-                                              <button type="submit" class="btn btn-danger delete btn-sm"><i class="fa fa-trash"></i> @lang('site.delete')</button>
+                                              <button type="submit" class="btn btn-danger delete btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.delete')"><i class="fa fa-trash"></i></button>
                                           </form><!-- end of form -->
                                       @else
                                           <button class="btn btn-danger btn-sm disabled"><i class="fa fa-trash"></i> @lang('site.delete')</button>
@@ -222,7 +222,8 @@
         }
 
         // export Excel File
-        $(document).on('click', '#export', function() {
+        $(document).on('click', '#export', function(event) {
+          event.preventDefault();
           var searchVal = $('#search').val() != null ? $('#search').val() : '{{ old('search') }}';
           var office_idVal = $('#office_id').val() != null ? $('#office_id').val() : '{{ old('office_id') }}';
           var school_idVal = $('#school_id').val() != null ? $('#school_id').val() : '{{ old('school_id') }}';

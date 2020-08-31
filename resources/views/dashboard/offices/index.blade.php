@@ -105,7 +105,7 @@
                               <th>@lang('site.name')</th>
                               <th class="text-center">@lang('site.schools_count')</th>
                               <th class="text-center">@lang('site.related_schools')</th>
-                              <th width="20%" colspan="2" class="text-center">@lang('site.action')</th>
+                              <th width="10%" colspan="2" class="text-center">@lang('site.action')</th>
                           </tr>
                         </thead>
                         
@@ -118,9 +118,9 @@
                                   <td class="text-center"><a href="{{ route('dashboard.schools.index', ['office_id' => $office->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-school"></i></a></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('offices_update'))
-                                          <a href="{{ route('dashboard.offices.edit', $office->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> @lang('site.edit')</a>
+                                          <a href="{{ route('dashboard.offices.edit', $office->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"><i class="fa fa-edit"></i></a>
                                       @else
-                                          <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-edit"></i> @lang('site.edit')</a>
+                                          <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-edit"></i></a>
                                       @endif
                                   </td>
                                   <td class="text-center">
@@ -128,10 +128,10 @@
                                           <form action="{{ route('dashboard.offices.destroy', $office->id) }}" method="post" style="display: inline-block">
                                               {{ csrf_field() }}
                                               {{ method_field('delete') }}
-                                              <button type="submit" class="btn btn-danger delete btn-sm"><i class="fa fa-trash"></i> @lang('site.delete')</button>
+                                              <button type="submit" class="btn btn-danger delete btn-sm"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="@lang('site.delete')"></i></button>
                                           </form><!-- end of form -->
                                       @else
-                                          <button class="btn btn-danger btn-sm disabled"><i class="fa fa-trash"></i> @lang('site.delete')</button>
+                                          <button class="btn btn-danger btn-sm disabled"><i class="fa fa-trash"></i></button>
                                       @endif
                                   </td>
                               </tr>
@@ -174,7 +174,8 @@
 @section('scripts')
   <script>
     $(function () {
-        $(document).on('click', '#export', function() {
+        $(document).on('click', '#export', function(event) {
+          event.preventDefault();
           var searchVal = $('#search').val() != null ? $('#search').val() : '{{ old('search') }}';
           gotoUrl("{{ route('dashboard.office_excel_export') }}", {_token : "{{ csrf_token() }}", search :searchVal});
           return false;

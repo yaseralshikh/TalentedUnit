@@ -55,7 +55,7 @@ class StudentController extends Controller
 
         })->when($request->search, function ($q) use ($request) {
 
-            return $q->where('name', 'like' , '%' . $request->search . '%')
+            return $q->where('name', 'like' , $request->search . '%')
                      ->orWhere('idcard', $request->search)
                      ->orWhere('mobile', $request->search)
                      ->orWhere('email', 'like', '%' . $request->search . '%');
