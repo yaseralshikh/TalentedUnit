@@ -34,7 +34,7 @@
                   <div class="row">
 
                       <div class="col-md-4">
-                          <input type="text" name="search" class="form-control" placeholder="@lang('site.search')" value="{{ request()->search }}">
+                          <input type="text" name="search" id="search" class="form-control" placeholder="@lang('site.search')" value="{{ request()->search }}">
                           <small id="studentsSearchHelp" class="form-text text-muted pb-3">@lang('site.studentsSearchHelp')</small>
                       </div>
 
@@ -91,9 +91,9 @@
                       <a href="{{ route('dashboard.students.index') }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.reset')"><i class="fas fa-sync-alt"></i></a>
 
                       @if (auth()->user()->hasPermission('students_export'))
-                          <a href="{{ route('dashboard.student_excel_export') }}" class="btn btn-success btn-sm float-right"><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</a>
+                          <button class="btn btn-success btn-sm float-right" id='export'><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
                       @else
-                          <a href="#" class="btn btn-success btn-sm float-right disabled"><i class="far fa-file-excel"></i> @lang('site.export')</a>
+                          <button class="btn btn-success btn-sm float-right disabled"<i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
                       @endif
 
                       @if (auth()->user()->hasPermission('students_create'))
@@ -307,6 +307,19 @@
               }
           }
         }
+
+        // export Excel File
+        $(document).on('click', '#export', function(event) {
+          event.preventDefault();
+          var searchVal = $('#search').val() != null ? $('#search').val() : '{{ old('search') }}';
+          var office_idVal = $('#office_id').val() != null ? $('#office_id').val() : '{{ old('office_id') }}';
+          var school_idVal = $('#school_id').val() != null ? $('#school_id').val() : '{{ old('school_id') }}';
+          var stageVal = $('#stage').val() != null ? $('#stage').val() : '{{ old('stage') }}';
+          var classVal = $('#class').val() != null ? $('#class').val() : '{{ old('class') }}';
+
+          gotoUrl("{{ route('dashboard.student_excel_export') }}", {_token : "{{ csrf_token() }}", search : searchVal , office_id : office_idVal , school_id : school_idVal , stage : stageVal , class : classVal });
+          // return false;
+        });
     });    
   </script>
     

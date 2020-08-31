@@ -34,7 +34,7 @@
                   <div class="row">
 
                       <div class="col-md-6">
-                          <input type="text" name="search" class="form-control" placeholder="@lang('site.search')" value="{{ request()->search }}">
+                          <input type="text" name="search" id="search" class="form-control" placeholder="@lang('site.search')" value="{{ request()->search }}">
                       </div>
 
                       <div class="col-md-6">
@@ -43,9 +43,9 @@
                           <a href="{{ route('dashboard.offices.index') }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.reset')"><i class="fas fa-sync-alt"></i></a>
 
                           @if (auth()->user()->hasPermission('offices_export'))
-                              <a href="{{ route('dashboard.office_excel_export') }}" class="btn btn-success btn-sm float-right"><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</a>
+                              <button class="btn btn-success btn-sm float-right" id='export'><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
                           @else
-                              <a href="#" class="btn btn-success btn-sm float-right disabled"><i class="far fa-file-excel"></i> @lang('site.export')</a>
+                              <button class="btn btn-success btn-sm float-right disabled"<i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
                           @endif
 
                           @if (auth()->user()->hasPermission('offices_create'))
@@ -104,7 +104,7 @@
                               <th>#</th>
                               <th>@lang('site.name')</th>
                               <th class="text-center">@lang('site.schools_count')</th>
-                              <th>@lang('site.related_schools')</th>
+                              <th class="text-center">@lang('site.related_schools')</th>
                               <th width="20%" colspan="2" class="text-center">@lang('site.action')</th>
                           </tr>
                         </thead>
@@ -115,7 +115,7 @@
                                   <td>{{ $index + 1 }}</td>
                                   <td>{{ $office->name }}</td>
                                   <td class="text-center">{{ $office->schools->count() }}</td>
-                                  <td><a href="{{ route('dashboard.schools.index', ['office_id' => $office->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-school"></i> @lang('site.related_schools')</a></td>
+                                  <td class="text-center"><a href="{{ route('dashboard.schools.index', ['office_id' => $office->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-school"></i></a></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('offices_update'))
                                           <a href="{{ route('dashboard.offices.edit', $office->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> @lang('site.edit')</a>
@@ -169,4 +169,17 @@
         <!-- /.content -->
       </div>
 
+@endsection
+
+@section('scripts')
+  <script>
+    $(function () {
+        $(document).on('click', '#export', function() {
+          var searchVal = $('#search').val() != null ? $('#search').val() : '{{ old('search') }}';
+          gotoUrl("{{ route('dashboard.office_excel_export') }}", {_token : "{{ csrf_token() }}", search :searchVal});
+          return false;
+        });
+    });    
+  </script>
+    
 @endsection

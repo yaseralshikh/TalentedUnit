@@ -67,9 +67,9 @@ class SchoolController extends Controller
 
     } // End of get_schools
 
-    public function export()
+    public function export(Request $reques)
     {
-        return Excel::download(new SchoolExport(), 'school.xlsx');
+        return Excel::download(new SchoolExport($reques), 'school.xlsx');
     }
 
     public function import(Request $request)

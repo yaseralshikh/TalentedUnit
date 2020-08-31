@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
     <title>{{ config('app.name', 'Laravel') }} | Dashboard</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -136,6 +137,7 @@
 
     <!-- Custom Script -->
     <script src="{{ asset('dashboard_files/dist/js/custom/image_preview.js') }}"></script>
+    <script src="{{ asset('dashboard_files/dist/js/custom/goto_url.js') }}"></script>
     
     @yield('scripts')
   </body>

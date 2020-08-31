@@ -38,9 +38,9 @@ class OfficeController extends Controller
         return view('dashboard.offices.index', compact('offices'));
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new OfficeExport(), 'office.xlsx');
+        return Excel::download(new OfficeExport($request), 'Office.xlsx');
     }
 
     public function import(Request $request)

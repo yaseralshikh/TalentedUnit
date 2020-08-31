@@ -65,9 +65,9 @@ class StudentController extends Controller
         return view('dashboard.students.index', compact('offices', 'students'));
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new StudentExport(), 'Student.xlsx');
+        return Excel::download(new StudentExport($request), 'Student.xlsx');
     }
 
     public function import(Request $request)

@@ -1,0 +1,23 @@
+          // $.post("{{ route('dashboard.office_excel_export') }}" , { _token : "{{ csrf_token() }}", search : searchVal } , function(data, status){
+          //   console.log("Data: " + data + "\nStatus: " + status);
+          // }).fail(function(xhr, textStatus, error){
+          //   console.log(xhr.statusText);
+          //   console.log(textStatus);
+          //   console.log(error);
+          // });
+
+          // $.ajax({
+          //     type: 'post',
+          //     url: "{{ route('dashboard.office_excel_export') }}",
+          //     data:{
+          //         _token : "{{ csrf_token() }}",
+          //         search : searchVal,
+          //     },
+          //     datatype:'json',
+          //     success: function( data ) {
+          //         console.log(data);
+          //     },
+          //     error: function(request) {
+          //         console.log('Error Message : ' + request.responseJSON.message);
+          //     }
+          // });

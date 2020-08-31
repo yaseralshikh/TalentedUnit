@@ -68,7 +68,7 @@
                               <th class="text-center">@lang('site.mobile')</th>
                               <th class="text-center">@lang('site.email')</th>
                               <th class="text-center">@lang('site.office')</th>
-                              <th>@lang('site.related_schools')</th>
+                              <th class="text-center">@lang('site.related_schools')</th>
                               <th width="20%" colspan="2" class="text-center">@lang('site.action')</th>
                           </tr>
                         </thead>
@@ -85,7 +85,7 @@
                                   <td class="text-center">{{ $supervisor->mobile }}</td>
                                   <td class="text-center english_text">{{ $supervisor->email }}</td>
                                   <td class="text-center">{{ $supervisor->office->name }}</td>
-                                  <td width="11%"><a href="{{ route('dashboard.schools.index', ['office_id' => $supervisor->office->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-school"></i> @lang('site.schools')</a></td>
+                                  <td class="text-center" width="11%"><a href="{{ route('dashboard.schools.index', ['office_id' => $supervisor->office->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-school"></i></a></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('supervisors_update'))
                                           <a href="{{ route('dashboard.supervisors.edit', $supervisor->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> @lang('site.edit')</a>

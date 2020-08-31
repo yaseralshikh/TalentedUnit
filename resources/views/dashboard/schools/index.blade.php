@@ -34,12 +34,12 @@
                   <div class="row">
 
                       <div class="col-md-3">
-                          <input type="text" name="search" class="form-control" placeholder="@lang('site.search')" value="{{ request()->search }}">
+                          <input type="text" name="search" id="search" class="form-control" placeholder="@lang('site.search')" value="{{ request()->search }}">
                           <small id="SchoolsSearchHelp" class="form-text text-muted">@lang('site.SchoolsSearchHelp')</small>
                       </div>
 
                       <div class="col-md-3">
-                        <select name="office_id" class="form-control select_size">
+                        <select name="office_id" id="office_id" class="form-control select_size">
                             <option value="">@lang('site.all_offices')</option>
                             @foreach ($offices as $office)
                                 <option value="{{ $office->id }}" {{ request()->office_id == $office->id ? 'selected' : '' }}>{{ $office->name }}</option>
@@ -52,7 +52,7 @@
                         @php
                           $stages = [trans('site.primary_school'), trans('site.middle_school'), trans('site.secondary_school')];
                         @endphp
-                        <select name="stage" class="form-control select_size">
+                        <select name="stage" id="stage" class="form-control select_size">
                             <option value="">@lang('site.stages')</option>
                             @foreach ($stages as $stage)
                                 <option value="{{ $stage }}" {{ request()->stage == $stage ? 'selected' : '' }}>{{ $stage }}</option>
@@ -66,9 +66,9 @@
                           <a href="{{ route('dashboard.schools.index') }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.reset')"><i class="fas fa-sync-alt"></i></a>
 
                           @if (auth()->user()->hasPermission('schools_export'))
-                              <a href="{{ route('dashboard.school_excel_export') }}" class="btn btn-success btn-sm float-right"><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</a>
+                              <button class="btn btn-success btn-sm float-right" id='export'><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
                           @else
-                              <a href="#" class="btn btn-success btn-sm float-right disabled"><i class="far fa-file-excel"></i> @lang('site.export')</a>
+                              <button class="btn btn-success btn-sm float-right disabled"<i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
                           @endif
 
                           @if (auth()->user()->hasPermission('schools_create'))
@@ -198,4 +198,21 @@
         <!-- /.content -->
       </div>
 
+@endsection
+
+@section('scripts')
+
+  <script>
+    $(function () {
+        $(document).on('click', '#export', function() {
+          var searchVal = $('#search').val() != null ? $('#search').val() : '{{ old('search') }}';
+          var office_idVal = $('#office_id').val() != null ? $('#office_id').val() : '{{ old('office_id') }}';
+          var stageVal = $('#stage').val() != null ? $('#stage').val() : '{{ old('stage') }}';
+
+          gotoUrl("{{ route('dashboard.school_excel_export') }}", {_token : "{{ csrf_token() }}", search : searchVal , office_id : office_idVal , stage : stageVal });
+          return false;
+        });
+    });    
+  </script>
+    
 @endsection

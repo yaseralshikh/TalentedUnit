@@ -73,9 +73,9 @@ class TeacherController extends Controller
 
     } // End of get_teachers
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new TeacherExport(), 'Teacher.xlsx');
+        return Excel::download(new TeacherExport($request), 'Teacher.xlsx');
     }
 
     public function import(Request $request)

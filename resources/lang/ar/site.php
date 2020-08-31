@@ -1,6 +1,8 @@
 <?php
 
 return [
+
+    'dashboard_login' => 'الدخول للوحة التحكم الرئيسية',
     'dashboard' => 'الرئيسيه',
     'logout' => 'تسجيل الخروج',
 
