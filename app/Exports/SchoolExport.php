@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\School;
+use Maatwebsite\Excel\Concerns\WithMapping;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -10,7 +11,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class SchoolExport implements FromCollection , WithHeadings , ShouldAutoSize , WithEvents
+class SchoolExport implements FromCollection , WithMapping , WithHeadings , ShouldAutoSize , WithEvents
 {
     protected $request;
 
@@ -24,7 +25,7 @@ class SchoolExport implements FromCollection , WithHeadings , ShouldAutoSize , W
     */
     public function collection()
     {
-        return School::when($this->request->office_id, function ($q) {
+        return School::with('office')->when($this->request->office_id, function ($q) {
 
             return $q->where('office_id', $this->request->office_id);
 
@@ -43,19 +44,30 @@ class SchoolExport implements FromCollection , WithHeadings , ShouldAutoSize , W
         })->orderBy('name')->get();
     }
 
+    public function map($school) : array {
+        return [
+            $school->id,
+            $school->name,
+            $school->office->name,
+            $school->moe_id,
+            $school->stage,
+            $school->manager,
+            $school->mobile,
+            $school->email
+        ] ;
+    }
+
     public function headings(): array
     {
         return [
             'id',
             'name',
-            'office_id',
+            'office',
             'moe_id',
             'stage',
             'manager',
             'mobile',
-            'email',
-            'created_at',
-            'updated_at'
+            'email'
         ];
     }
     

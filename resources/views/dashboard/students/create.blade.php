@@ -54,7 +54,7 @@
                       <div class="col-sm-6">
                         <div class="form-group">
                           <label>@lang('site.idcard')</label>
-                          <input type="number" name="idcard" class="form-control" value="{{ old('idcard') }}">
+                          <input type="number" name="idcard" class="form-control" pattern="^([0-9]+([\.][0-9]+)?)|([\u0660-\u0669]+([\.][\u0660-\u0669]+)?)$" value="{{ old('idcard') }}">
                         </div>
                       </div>
                     </div>
@@ -127,7 +127,7 @@
                         <div class="col-sm-6">
                           <div class="form-group">
                             <label>@lang('site.mobile')</label>
-                            <input type="number" name="mobile" class="form-control" value="{{ old('mobile') }}">
+                            <input type="number" name="mobile" class="form-control" pattern="^([0-9]+([\.][0-9]+)?)|([\u0660-\u0669]+([\.][\u0660-\u0669]+)?)$" value="{{ old('mobile') }}">
                           </div>
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                       <div class="col-sm-6">
                         <div class="form-group">
                           <label>@lang('site.degree')</label>
-                          <input type="number" name="degree" class="form-control" value="{{ old('degree') }}">
+                          <input type="number" name="degree" class="form-control" pattern="^([0-9]+([\.][0-9]+)?)|([\u0660-\u0669]+([\.][\u0660-\u0669]+)?)$" value="{{ old('degree') }}">
                         </div>
                       </div>
 
@@ -192,8 +192,8 @@
             var officeIdVal = $('#office_id').val() != null ? $('#office_id').val() : '{{ old('office_id') }}';
             $.get("{{ route('dashboard.get_schools') }}", { office_id: officeIdVal }, function (data) {
                 $.each(data, function(val, text) {
-                    var selectedVal = val == '{{ request()->school_id }}' ? "selected" : "";
-                    $('#school_id').append($('<option ' + selectedVal + '></option>').val(val).html(text));
+                    var selectedVal = text == '{{ request()->school_id }}' ? "selected" : "";
+                    $('#school_id').append($('<option ' + selectedVal + '></option>').val(text).html(val));console.log(officeIdVal);
                 })
             }, "json");
         }

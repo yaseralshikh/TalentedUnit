@@ -68,7 +68,7 @@
                           @if (auth()->user()->hasPermission('schools_export'))
                               <button class="btn btn-success btn-sm float-right" id='export'><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
                           @else
-                              <button class="btn btn-success btn-sm float-right disabled"<i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
+                              <button class="btn btn-success btn-sm float-right disabled"><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
                           @endif
 
                           @if (auth()->user()->hasPermission('schools_create'))
@@ -85,7 +85,7 @@
                   <div class="col-md-12">
                       @if (auth()->user()->hasPermission('schools_import'))
                           @include('partials._errors')
-                          <form class="m-3" role="form" action="{{ route('dashboard.school_excel_import') }}" method="POST" enctype="multipart/form-data" >
+                          <form class="m-3 border" role="form" action="{{ route('dashboard.school_excel_import') }}" method="POST" enctype="multipart/form-data" >
                               @csrf
                               <div class="form-group">
                                 <div class="input-group">
@@ -109,7 +109,7 @@
                               </div>
                           </form>
                       @else
-                          <a href="#" class="btn btn-warning btn-sm float-right ml-3 disabled"><i class="far fa-file-excel"></i> @lang('site.import')</a>
+                          {{-- <a href="#" class="btn btn-warning btn-sm float-right ml-3 disabled"><i class="far fa-file-excel"></i> @lang('site.import')</a> --}}
                       @endif
                   </div>
                 </div>
@@ -149,8 +149,8 @@
                                   <td>{{ $school->manager }}</td>
                                   <td class="text-center">{{ $school->mobile }}</td>
                                   <td class="text-center english_text">{{ $school->email }}</td>
-                                  <td class="text-center"><a href="{{ route('dashboard.teachers.index', ['school_id' => $school->id]) }}" class="btn btn-success btn-sm"><i class="nav-icon fas fa-chalkboard-teacher"></i></a></td>
-                                  <td class="text-center"><a href="{{ route('dashboard.students.index', ['school_id' => $school->id]) }}" class="btn btn-secondary btn-sm"><i class="nav-icon fas fa-user-graduate"></i></a></td>
+                                  <td class="text-center"><a href="{{ route('dashboard.teachers.index', ['school_id' => $school->moe_id]) }}" class="btn btn-success btn-sm"><span class="border border-warning bg-dark">&nbsp;{{ $school->teachers->count() }}&nbsp;</span><i class="nav-icon fas fa-chalkboard-teacher"></i></a></td>
+                                  <td class="text-center"><a href="{{ route('dashboard.students.index', ['school_id' => $school->moe_id]) }}" class="btn btn-secondary btn-sm"><span class="border border-warning bg-dark">&nbsp;{{ $school->students->count() }}&nbsp;</span><i class="nav-icon fas fa-user-graduate"></i></a></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('schools_update'))
                                           <a href="{{ route('dashboard.schools.edit', $school->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"><i class="fa fa-edit"></i></a>

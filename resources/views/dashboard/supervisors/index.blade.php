@@ -33,12 +33,12 @@
 
                   <div class="row">
 
-                      <div class="col-md-3">
+                      <div class="col-md-6">
                           <input type="text" name="search" class="form-control" placeholder="@lang('site.search')" value="{{ request()->search }}">
                           <small id="TeachersSearchHelp" class="form-text text-muted">@lang('site.SupervisorsSearchHelp')</small>
                       </div>
 
-                      <div class="col-md-3">
+                      <div class="col-md-6">
                           <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-search"></i> @lang('site.search')</button>
                           <a href="{{ route('dashboard.supervisors.index') }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.reset')"><i class="fas fa-sync-alt"></i></a>
 
@@ -85,7 +85,7 @@
                                   <td class="text-center">{{ $supervisor->mobile }}</td>
                                   <td class="text-center english_text">{{ $supervisor->email }}</td>
                                   <td class="text-center">{{ $supervisor->office->name }}</td>
-                                  <td class="text-center" width="11%"><a href="{{ route('dashboard.schools.index', ['office_id' => $supervisor->office->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-school"></i></a></td>
+                                  <td class="text-center" width="11%"><a href="{{ route('dashboard.schools.index', ['office_id' => $supervisor->office->id]) }}" class="btn btn-success btn-sm"><span class="border border-warning bg-dark">&nbsp;{{ $supervisor->office->schools->count() }}&nbsp;</span><i class="fas fa-school"></i></a></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('supervisors_update'))
                                           <a href="{{ route('dashboard.supervisors.edit', $supervisor->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"><i class="fa fa-edit"></i></a>

@@ -160,9 +160,8 @@
             var officeIdVal = $('#office_id').val() != null ? $('#office_id').val() : '{{ old('office_id') }}';
             $.get("{{ route('dashboard.get_schools') }}", { office_id: officeIdVal }, function (data) {
                 $.each(data, function(val, text) {
-                    var selectedVal = val == '{{ $teacher->school_id }}' ? "selected" : "";
-                    $('#school_id').append($('<option ' + selectedVal + '></option>').val(val).html(text));
-                    console.log(val,text);
+                    var selectedVal = text == '{{ $teacher->school_id }}' ? "selected" : "";
+                    $('#school_id').append($('<option ' + selectedVal + '></option>').val(text).html(val));
                 })
             }, "json");
         }

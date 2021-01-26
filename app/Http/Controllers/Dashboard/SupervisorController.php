@@ -79,7 +79,7 @@ class SupervisorController extends Controller
                 ->resize(300, null, function ($constraint) {
                     $constraint->aspectRatio();
                 })
-                ->save(public_path('uploads/user_images/' . $request->image->hashName()));
+                ->save('uploads/user_images/' . $request->image->hashName());
 
             $request_data['image'] = $request->image->hashName();
 
@@ -157,7 +157,7 @@ class SupervisorController extends Controller
                 ->resize(300, null, function ($constraint) {
                     $constraint->aspectRatio();
                 })
-                ->save(public_path('uploads/user_images/' . $request->image->hashName()));
+                ->save('uploads/user_images/' . $request->image->hashName());
 
             $request_data['image'] = $request->image->hashName();
 

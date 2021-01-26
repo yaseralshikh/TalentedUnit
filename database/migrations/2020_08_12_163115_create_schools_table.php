@@ -17,7 +17,7 @@ class CreateSchoolsTable extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('office_id')->constrained()->onDelete('cascade');
-            $table->string('moe_id');
+            $table->unsignedBigInteger("moe_id")->index();
             $table->string('stage');
             $table->string('manager')->nullable();
             $table->string('mobile')->nullable();

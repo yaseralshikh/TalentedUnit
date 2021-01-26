@@ -16,13 +16,13 @@ class School extends Model
 
     public function teachers()
     {
-        return $this->hasMany(Teacher::class);
+        return $this->hasMany(Teacher::class , 'school_id' , 'moe_id');
         
     }//end of teachers
 
     public function students()
     {
-        return $this->hasMany(Student::class);
+        return $this->hasMany(Student::class , 'school_id' , 'moe_id');
         
     }//end of students
 

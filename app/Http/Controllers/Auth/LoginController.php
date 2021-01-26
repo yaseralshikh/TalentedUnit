@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -36,5 +37,25 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function Login(Request $requset)
+    {
+        $input = $requset->all();
+
+        $this->validate($requset, [
+            'idcard' => 'required',
+            'password' => 'required'
+        ]);
+
+        $fieldTpye = filter_var($requset->idcard, FILTER_VALIDATE_EMAIL) ? 'email' : 'idcard';
+
+        if(auth()->attempt(array($fieldTpye => $input['idcard'], 'password' => $input['password'])))
+        {
+            return redirect()->route('dashboard.welcome');
+        }else{
+            session()->flash('error', __('site.added_successfully'));
+            return redirect()->route('login')->with('error', __('site.incorrect_idcard_email_password'));
+        }
     }
 }

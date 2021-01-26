@@ -109,7 +109,7 @@
                           @endphp
                           <select name="class" id="class" class="form-control select_size">
                               @foreach ($classes as $class)
-                                  <option value="{{ $class }}" {{  $student->class == $class ? 'selected' : '' }}>{{ $class }}</option>
+                                  <option value="{{ $class }}" {{ $student->class == $class ? 'selected' : '' }}>{{ $class }}</option>
                               @endforeach
                           </select>
                         </div>
@@ -127,7 +127,7 @@
                         <div class="col-sm-6">
                           <div class="form-group">
                             <label>@lang('site.mobile')</label>
-                            <input type="number" name="mobile" class="form-control" value="{{  $student->mobile }}">
+                            <input type="number" name="mobile" class="form-control" pattern="^([0-9]+([\.][0-9]+)?)|([\u0660-\u0669]+([\.][\u0660-\u0669]+)?)$" value="{{  $student->mobile }}">
                           </div>
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                       <div class="col-sm-6">
                         <div class="form-group">
                           <label>@lang('site.degree')</label>
-                          <input type="number" name="degree" class="form-control" value="{{ $student->degree }}">
+                          <input type="number" name="degree" class="form-control" pattern="^([0-9]+([\.][0-9]+)?)|([\u0660-\u0669]+([\.][\u0660-\u0669]+)?)$" value="{{ $student->degree }}">
                         </div>
                       </div>
 
@@ -192,8 +192,8 @@
             var officeIdVal = $('#office_id').val() != null ? $('#office_id').val() : '{{ old('office_id') }}';
             $.get("{{ route('dashboard.get_schools') }}", { office_id: officeIdVal }, function (data) {
                 $.each(data, function(val, text) {
-                    var selectedVal = val == '{{ $student->school_id }}' ? "selected" : "";
-                    $('#school_id').append($('<option ' + selectedVal + '></option>').val(val).html(text));
+                    var selectedVal = text == '{{ $student->school_id }}' ? "selected" : "";
+                    $('#school_id').append($('<option ' + selectedVal + '></option>').val(text).html(val));
                 })
             }, "json");
         }

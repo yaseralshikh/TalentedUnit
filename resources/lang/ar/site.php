@@ -26,6 +26,7 @@ return [
     'password' => 'كلمه المرور',
     'password_confirmation' => 'تاكيد كلمه المرور',
     'forget_password' => 'نسيت كلمة المرور ؟',
+    'incorrect_idcard_email_password' => 'البريد الالكتروني او السجل المدني او كلمة المرور غير صحيحة',
 
     'added_successfully' => 'تم اضافه البيانات بنجاح',
     'updated_successfully' => 'تم تعديل البيانات بنجاح',

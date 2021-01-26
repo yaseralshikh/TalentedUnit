@@ -42,27 +42,27 @@
 
                           <a href="{{ route('dashboard.offices.index') }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.reset')"><i class="fas fa-sync-alt"></i></a>
 
-                          @if (auth()->user()->hasPermission('offices_export'))
+                          {{-- @if (auth()->user()->hasPermission('offices_export'))
                               <button class="btn btn-success btn-sm float-right" id='export'><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
                           @else
-                              <button class="btn btn-success btn-sm float-right disabled"<i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
-                          @endif
+                              <button class="btn btn-success btn-sm float-right disabled"><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
+                          @endif --}}
 
                           @if (auth()->user()->hasPermission('offices_create'))
-                              <a href="{{ route('dashboard.offices.create') }}" class="btn btn-primary btn-sm float-right ml-3"><i class="fa fa-plus"></i> @lang('site.add')</a>
+                              <a href="{{ route('dashboard.offices.create') }}" class="btn btn-primary btn-sm float-right"><i class="fa fa-plus"></i> @lang('site.add')</a>
                           @else
-                              <a href="#" class="btn btn-primary btn-sm float-right ml-3 disabled"><i class="fa fa-plus"></i> @lang('site.add')</a>
+                              <a href="#" class="btn btn-primary btn-sm float-right disabled"><i class="fa fa-plus"></i> @lang('site.add')</a>
                           @endif
                       </div>
 
                   </div>
                 </form><!-- end of form -->
 
-                <div class="row">
+                {{-- <div class="row">
                   <div class="col-md-12">
                       @if (auth()->user()->hasPermission('offices_import'))
                           @include('partials._errors')
-                          <form class="m-3" role="form" action="{{ route('dashboard.office_excel_import') }}" method="POST" enctype="multipart/form-data" >
+                          <form class="m-3 border" role="form" action="{{ route('dashboard.office_excel_import') }}" method="POST" enctype="multipart/form-data" >
                               @csrf
                               <div class="form-group">
                                 <div class="input-group">
@@ -89,7 +89,7 @@
                           <a href="#" class="btn btn-warning btn-sm float-right ml-3 disabled"><i class="far fa-file-excel"></i> @lang('site.import')</a>
                       @endif
                   </div>
-                </div>
+                </div> --}}
                 
                 <hr>
 
@@ -103,7 +103,6 @@
                           <tr>
                               <th>#</th>
                               <th>@lang('site.name')</th>
-                              <th class="text-center">@lang('site.schools_count')</th>
                               <th class="text-center">@lang('site.related_schools')</th>
                               <th width="10%" colspan="2" class="text-center">@lang('site.action')</th>
                           </tr>
@@ -114,8 +113,7 @@
                               <tr>
                                   <td>{{ $index + 1 }}</td>
                                   <td>{{ $office->name }}</td>
-                                  <td class="text-center">{{ $office->schools->count() }}</td>
-                                  <td class="text-center"><a href="{{ route('dashboard.schools.index', ['office_id' => $office->id]) }}" class="btn btn-success btn-sm"><i class="fas fa-school"></i></a></td>
+                                  <td class="text-center"><a href="{{ route('dashboard.schools.index', ['office_id' => $office->id]) }}" class="btn btn-success btn-sm"><span class="border border-warning bg-dark">&nbsp;{{ $office->schools->count() }}&nbsp;</span> <i class="fas fa-school"></i></a></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('offices_update'))
                                           <a href="{{ route('dashboard.offices.edit', $office->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"><i class="fa fa-edit"></i></a>

@@ -49,7 +49,7 @@ class SchoolController extends Controller
                          ->orWhere('mobile', 'like', '%' . $request->search . '%')
                          ->orWhere('email', 'like', '%' . $request->search . '%');
     
-            })->orderBy('name')->paginate(50);
+            })->orderBy('name')->paginate(100);
 
         return view('dashboard.schools.index', compact('offices', 'schools'));
     }
@@ -61,8 +61,12 @@ class SchoolController extends Controller
 
             return $q->whereOfficeId($request->office_id);
 
-        })->pluck('name', 'id');
+        })->when($request->stage, function ($q) use ($request) {
 
+            return $q->where('stage', $request->stage);
+
+        })->orderBy('name','asc')->pluck('moe_id', 'name');
+        
         return response()->json($schools);
 
     } // End of get_schools
@@ -142,9 +146,9 @@ class SchoolController extends Controller
         $request->validate([
             'name' => 'required',
             'moe_id' => 'required|unique:schools,moe_id',
-            'manager' => 'required',
-            'mobile' => 'digits_between:10,14',
-            'email' => 'email',
+            //'manager' => 'required',
+            'mobile' => 'nullable|digits_between:10,14',
+            'email' => 'nullable|email',
         ]);
         School::create($request->all());
         session()->flash('success', __('site.added_successfully'));
@@ -186,9 +190,9 @@ class SchoolController extends Controller
         $request->validate([
             'name' => 'required',
             'moe_id' => ['required' , Rule::unique('schools')->ignore($school->id),],
-            'manager' => 'required',
-            'mobile' => 'digits_between:10,14',
-            'email' => 'email',
+            //'manager' => 'required',
+            'mobile' => 'nullable|digits_between:10,14',
+            'email' => 'nullable|email',
         ]);
 
         $school->update($request->all());

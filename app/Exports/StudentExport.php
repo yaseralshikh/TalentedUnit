@@ -3,6 +3,8 @@
 namespace App\Exports;
 
 use App\Student;
+//use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\WithMapping;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -10,7 +12,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class StudentExport implements FromCollection , WithHeadings , ShouldAutoSize , WithEvents
+class StudentExport implements FromCollection , WithHeadings , WithMapping , ShouldAutoSize , WithEvents
 {
     protected $request;
 
@@ -24,7 +26,7 @@ class StudentExport implements FromCollection , WithHeadings , ShouldAutoSize , 
     */
     public function collection()
     {
-        return Student::when($this->request->office_idt, function ($q) {
+        return Student::with('school','office','teacher')->when($this->request->office_id, function ($q) {
 
             return $q->where('office_id', $this->request->office_id);
 
@@ -54,6 +56,24 @@ class StudentExport implements FromCollection , WithHeadings , ShouldAutoSize , 
         })->orderBy('name')->get();
     }
 
+    public function map($student) : array {
+        return [
+            $student->id,
+            $student->name,
+            $student->idcard,
+            $student->mobile,
+            $student->email,
+            $student->stage,
+            $student->class,
+            $student->degree,
+            $student->office->name,
+            $student->school->name,
+            $student->teacher->name,
+            //Carbon::parse($student->created_at)->toFormattedDateString(),
+            //Carbon::parse($student->updated_at)->toFormattedDateString()
+        ] ;
+    }
+
     public function headings(): array
     {
         return [
@@ -65,11 +85,11 @@ class StudentExport implements FromCollection , WithHeadings , ShouldAutoSize , 
             'stage',
             'class',
             'degree',
-            'office_id',
-            'school_id',
-            'teacher_id',
-            'created_at',
-            'updated_at'
+            'office',
+            'school',
+            'teacher',
+            //'created_at',
+            //'updated_at'
         ];
     }
 

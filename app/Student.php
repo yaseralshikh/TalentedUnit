@@ -16,13 +16,13 @@ class Student extends Model
 
     public function school()
     {
-        return $this->belongsTo(School::class);
+        return $this->belongsTo(School::class , 'school_id' , 'moe_id');
 
     }//end fo school
 
     public function teacher()
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(Teacher::class , 'teacher_id' , 'idcard');
 
     }//end fo teacher
 

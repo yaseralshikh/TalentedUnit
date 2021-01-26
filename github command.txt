@@ -1,0 +1,11 @@
+get clone https://github.com/yaseralshikh/laravel7_super_admin.git
+git clone -b Dashboard --single-branch https://github.com/yaseralshikh/laravel7_super_admin.git
+
+git branch Dashboard
+git checkout Dashboard
+git branch -d checkout
+
+git statue
+git add .
+git commit -m "Constructed index Dashboard"
+git push -u origin Laratrust

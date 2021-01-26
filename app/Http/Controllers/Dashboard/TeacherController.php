@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Office;
 use App\Teacher;
+use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -47,6 +48,10 @@ class TeacherController extends Controller
 
                 return $q->where('id', $request->teacher_id);
 
+            })->when($request->idcard, function ($q) use ($request) {
+
+                return $q->where('idcard', $request->idcard);
+
             })->when($request->search, function ($q) use ($request) {
 
                 return $q->where('name', 'like' , $request->search . '%')
@@ -67,7 +72,7 @@ class TeacherController extends Controller
 
             return $q->whereSchoolId($request->school_id);
 
-        })->pluck('name', 'id');
+        })->pluck('name', 'idcard');
 
         return response()->json($teachers);
 
@@ -150,8 +155,8 @@ class TeacherController extends Controller
         $request->validate([
             'name' => ['required'],
             'idcard' => 'required|unique:teachers,idcard',
-            'mobile' => 'required|digits_between:10,14',
-            'email' => 'required|email'
+            'mobile' => 'nullable|digits_between:10,14',
+            'email' => 'nullable|email'
         ]);
 
         $request_data = $request->all();
@@ -162,7 +167,7 @@ class TeacherController extends Controller
                 ->resize(500, null, function ($constraint) {
                     $constraint->aspectRatio();
                 })
-                ->save(public_path('uploads/teacher_images/' . $request->image->hashName()));
+                ->save('uploads/teacher_images/' . $request->image->hashName());
 
             $request_data['image'] = $request->image->hashName();
 
@@ -206,10 +211,10 @@ class TeacherController extends Controller
     public function update(Request $request, Teacher $teacher)
     {
         $request->validate([
-            'name' => ['required'],
-            'idcard' => 'required',
-            'mobile' => 'digits_between:10,14',
-            'email' => 'email'
+            'name' => ['required' , Rule::unique('teachers')->ignore($teacher->id),],
+            'idcard' => ['required' , 'digits:10' , Rule::unique('teachers')->ignore($teacher->id),],
+            'mobile' => 'nullable|digits_between:10,14',
+            'email' => 'nullable|email'
         ]);
 
         $request_data = $request->all();
@@ -226,7 +231,7 @@ class TeacherController extends Controller
                 ->resize(500, null, function ($constraint) {
                     $constraint->aspectRatio();
                 })
-                ->save(public_path('uploads/teacher_images/' . $request->image->hashName()));
+                ->save('uploads/teacher_images/' . $request->image->hashName());
 
             $request_data['image'] = $request->image->hashName();
 

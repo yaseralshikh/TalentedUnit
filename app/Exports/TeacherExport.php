@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Teacher;
+use Maatwebsite\Excel\Concerns\WithMapping;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -10,7 +11,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class TeacherExport implements FromCollection , WithHeadings , ShouldAutoSize , WithEvents
+class TeacherExport implements FromCollection , WithMapping , WithHeadings , ShouldAutoSize , WithEvents
 {
     protected $request;
 
@@ -24,7 +25,7 @@ class TeacherExport implements FromCollection , WithHeadings , ShouldAutoSize , 
     */
     public function collection()
     {
-        return Teacher::when($this->request->office_id, function ($q) {
+        return Teacher::with('school','office')->when($this->request->office_id, function ($q) {
 
             return $q->where('office_id', $this->request->office_id);
 
@@ -43,6 +44,21 @@ class TeacherExport implements FromCollection , WithHeadings , ShouldAutoSize , 
         })->orderBy('name')->get();
     }
 
+    public function map($teacher) : array {
+        return [
+            $teacher->id,
+            $teacher->name,
+            $teacher->idcard,
+            $teacher->mobile,
+            $teacher->email,
+            $teacher->specialization,
+            $teacher->office->name,
+            $teacher->school->name,
+            //Carbon::parse($student->created_at)->toFormattedDateString(),
+            //Carbon::parse($student->updated_at)->toFormattedDateString()
+        ] ;
+    }
+
     public function headings(): array
     {
         return [
@@ -52,11 +68,11 @@ class TeacherExport implements FromCollection , WithHeadings , ShouldAutoSize , 
             'mobile',
             'email',
             'specialization',
-            'image',
-            'office_id',
-            'school_id',
-            'created_at',
-            'updated_at'
+            //'image',
+            'office',
+            'school',
+            //'created_at',
+            //'updated_at'
         ];
     }
 

@@ -79,7 +79,7 @@
                   <div class="col-md-12">
                       @if (auth()->user()->hasPermission('teachers_import'))
                           @include('partials._errors')
-                          <form class="m-3" role="form" action="{{ route('dashboard.teacher_excel_import') }}" method="POST" enctype="multipart/form-data" >
+                          <form class="m-3 border" role="form" action="{{ route('dashboard.teacher_excel_import') }}" method="POST" enctype="multipart/form-data" >
                               @csrf
                               <div class="form-group">
                                 <div class="input-group">
@@ -103,7 +103,7 @@
                               </div>
                           </form>
                       @else
-                          <a href="#" class="btn btn-warning btn-sm float-right ml-3 disabled"><i class="far fa-file-excel"></i> @lang('site.import')</a>
+                          {{-- <a href="#" class="btn btn-warning btn-sm float-right ml-3 disabled"><i class="far fa-file-excel"></i> @lang('site.import')</a> --}}
                       @endif
                   </div>
                 </div>                
@@ -146,7 +146,7 @@
                                   <td class="text-center">{{ $teacher->office->name }}</td>
                                   <td class="text-center">{{ $teacher->school->name }}</td>
                                   <td class="text-center">{{ $teacher->specialization }}</td>
-                                  <td class="text-center"><a href="{{ route('dashboard.students.index', ['teacher_id' => $teacher->id]) }}" class="btn btn-success btn-sm"><i class="nav-icon fas fa-chalkboard-teacher"></i></a></td>
+                                  <td class="text-center"><a href="{{ route('dashboard.students.index', ['teacher_id' => $teacher->idcard]) }}" class="btn btn-secondary btn-sm"><span class="border border-warning bg-dark">&nbsp;{{ $teacher->students->count() }}&nbsp;</span><i class="nav-icon fas fa-user-graduate"></i></a></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('teachers_update'))
                                           <a href="{{ route('dashboard.teachers.edit', $teacher->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"><i class="fa fa-edit"></i></a>
@@ -214,9 +214,8 @@
             var officeIdVal = $('#office_id').val() != null ? $('#office_id').val() : '{{ old('office_id') }}';
             $.get("{{ route('dashboard.get_schools') }}", { office_id: officeIdVal }, function (data) {
                 $.each(data, function(val, text) {
-                    var selectedVal = val == '{{ request()->school_id }}' ? "selected" : "";
-                    $('#school_id').append($('<option ' + selectedVal + '></option>').val(val).html(text));
-                    console.log(val,text);
+                    var selectedVal = text == '{{ request()->school_id }}' ? "selected" : "";
+                    $('#school_id').append($('<option ' + selectedVal + '></option>').val(text).html(val));
                 })
             }, "json");
         }

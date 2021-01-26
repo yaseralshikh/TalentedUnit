@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Office;
 use App\Student;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\StudentExport;
@@ -60,7 +61,7 @@ class StudentController extends Controller
                      ->orWhere('mobile', $request->search)
                      ->orWhere('email', 'like', '%' . $request->search . '%');
 
-        })->orderBy('name')->paginate(50);
+        })->orderBy('name')->paginate(150);
 
         return view('dashboard.students.index', compact('offices', 'students'));
     }
@@ -144,14 +145,14 @@ class StudentController extends Controller
         $request->validate([
             'name' => 'required|unique:students,name',
             'idcard' => 'required|digits:10|unique:students,idcard',
-            'mobile' => 'required|digits_between:10,14',
-            'email' => 'required|email',
+            'mobile' => 'nullable|digits_between:10,14',
+            'email' => 'nullable|email',
             'stage' => 'required',
             'class' => 'required',
             'office_id' => 'required',
             'school_id' => 'required',
             'teacher_id' => 'required',
-            'degree' => 'required|numeric'
+            'degree' => 'nullable|numeric'
         ]);
 
         $request_data = $request->all();
@@ -194,16 +195,16 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         $request->validate([
-            'name' => 'required|unique:students,name',
-            'idcard' => 'required|digits:10|unique:students,idcard',
-            'mobile' => 'required|digits_between:10,14',
-            'email' => 'required|email',
+            'name' => ['required' , Rule::unique('students')->ignore($student->id),],
+            'idcard' => ['required' , 'digits:10' , Rule::unique('students')->ignore($student->id),],
+            'mobile' => 'nullable|digits_between:10,14',
+            'email' => 'nullable|email',
             'stage' => 'required',
             'class' => 'required',
             'office_id' => 'required',
             'school_id' => 'required',
             'teacher_id' => 'required',
-            'degree' => 'required|numeric'
+            'degree' => 'nullable|numeric'
         ]);
 
         $request_data = $request->all();

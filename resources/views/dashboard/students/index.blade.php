@@ -97,9 +97,9 @@
                       @endif
 
                       @if (auth()->user()->hasPermission('students_create'))
-                          <a href="{{ route('dashboard.students.create') }}" class="btn btn-primary btn-sm float-right ml-3"><i class="fa fa-plus"></i> @lang('site.add')</a>
+                          <a href="{{ route('dashboard.students.create') }}" class="btn btn-primary btn-sm float-right"><i class="fa fa-plus"></i> @lang('site.add')</a>
                       @else
-                          <a href="#" class="btn btn-primary btn-sm float-right ml-3 disabled"><i class="fa fa-plus"></i> @lang('site.add')</a>
+                          <a href="#" class="btn btn-primary btn-sm float-right disabled"><i class="fa fa-plus"></i> @lang('site.add')</a>
                       @endif
                     </div>
                   </div>
@@ -109,7 +109,7 @@
                   <div class="col-md-12">
                       @if (auth()->user()->hasPermission('students_import'))
                           @include('partials._errors')
-                          <form class="m-3" role="form" action="{{ route('dashboard.student_excel_import') }}" method="POST" enctype="multipart/form-data" >
+                          <form class="m-3 border" role="form" action="{{ route('dashboard.student_excel_import') }}" method="POST" enctype="multipart/form-data" >
                               @csrf
                               <div class="form-group">
                                 <div class="input-group">
@@ -133,7 +133,7 @@
                               </div>
                           </form>
                       @else
-                          <a href="#" class="btn btn-warning btn-sm float-right ml-3 disabled"><i class="far fa-file-excel"></i> @lang('site.import')</a>
+                          {{-- <a href="#" class="btn btn-warning btn-sm float-right ml-3 disabled"><i class="far fa-file-excel"></i> @lang('site.import')</a> --}}
                       @endif
                   </div>
                 </div>               
@@ -174,7 +174,7 @@
                                   <td class="text-center">{{ $student->office->name }}</td>
                                   <td class="text-center">{{ $student->mobile }}</td>
                                   <td class="text-center english_text">{{ $student->email }}</td>
-                                  <td class="text-center"><a href="{{ route('dashboard.teachers.index', ['teacher_id' => $student->teacher->id]) }}" class="btn btn-success btn-sm"><i class="nav-icon fas fa-chalkboard-teacher"></i></a></td>
+                                  <td class="text-center"><a href="{{ route('dashboard.teachers.index', ['idcard' => $student->teacher->idcard]) }}" class="btn btn-success btn-sm"><i class="nav-icon fas fa-chalkboard-teacher"></i></a></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('students_update'))
                                           <a href="{{ route('dashboard.students.edit', $student->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"></i></a>
@@ -238,10 +238,11 @@
             var translate = @json( __('site.all_schools') );
             $('#school_id').append($('<option></option>').val('').html(translate));
             var officeIdVal = $('#office_id').val() != null ? $('#office_id').val() : '{{ old('office_id') }}';
-            $.get("{{ route('dashboard.get_schools') }}", { office_id: officeIdVal }, function (data) {
+            var stageVal = $('#stage').val() != null ? $('#stage').val() : '{{ old('stage') }}';
+            $.get("{{ route('dashboard.get_schools') }}", { office_id: officeIdVal , stage: stageVal }, function (data) {
                 $.each(data, function(val, text) {
-                    var selectedVal = val == '{{ request()->school_id }}' ? "selected" : "";
-                    $('#school_id').append($('<option ' + selectedVal + '></option>').val(val).html(text));
+                    var selectedVal = text == '{{ request()->school_id }}' ? "selected" : "";
+                    $('#school_id').append($('<option ' + selectedVal + '></option>').val(text).html(val));
                     //console.log(val,text);
                 })
             }, "json");
@@ -250,6 +251,7 @@
         dependentStages()
         $(document).on('change', '#stage', function() {
             dependentStages();
+            dependentSchools();
             return false;
         });
 
@@ -314,6 +316,7 @@
           var searchVal = $('#search').val() != null ? $('#search').val() : '{{ old('search') }}';
           var office_idVal = $('#office_id').val() != null ? $('#office_id').val() : '{{ old('office_id') }}';
           var school_idVal = $('#school_id').val() != null ? $('#school_id').val() : '{{ old('school_id') }}';
+          console.log(school_idVal);
           var stageVal = $('#stage').val() != null ? $('#stage').val() : '{{ old('stage') }}';
           var classVal = $('#class').val() != null ? $('#class').val() : '{{ old('class') }}';
 
