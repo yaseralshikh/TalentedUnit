@@ -147,63 +147,168 @@
                       <table class="table table-hover">
 
                         <thead class="bg-dark">
-                          <tr>
-                              <th>#</th>
+                          <tr class="text-center">
+                              <th><button type="button" class="btn btn-sm btn-secondary" data-toggle="collapse" data-target=".ShowHide">#</button></th>
                               <th>@lang('site.name')</th>
-                              <th width="120px" class="text-center">@lang('site.idcard')</th>
-                              <th class="text-center">@lang('site.stage')</th>
-                              <th class="text-center">@lang('site.class')</th>
-                              <th class="text-center">@lang('site.school')</th>
-                              <th class="text-center">@lang('site.office')</th>
-                              <th class="text-center">@lang('site.mobile')</th>
-                              <th class="text-center">@lang('site.email')</th>
-                              <th class="text-center">@lang('site.related_teacher')</th>
+                              <th>@lang('site.stage')</th>
+                              <th>@lang('site.class')</th>
+                              <th>@lang('site.office')</th>
+                              <th>@lang('site.school')</th>
+                              <th>@lang('site.programs')</th>
+                              <th>@lang('site.courses')</th>
+                              <th>@lang('site.related_teacher')</th>
                               <th width="10%" colspan="2" class="text-center">@lang('site.action')</th>
                           </tr>
                         </thead>
                         
                         <tbody>
                           @foreach ($students as $index=>$student)
-                              <tr>
-                                  <td class="text-center">{{ $index + 1 }}</td>
-                                  <td>{{ $student->name }}</td>
-                                  <td class="text-center">{{ $student->idcard }}</td>
-                                  <td class="text-center">{{ $student->stage }}</td>
-                                  <td class="text-center">{{ $student->class }}</td>
-                                  <td class="text-center">{{ $student->school->name }}</td>
-                                  <td class="text-center">{{ $student->office->name }}</td>
-                                  <td class="text-center">{{ $student->mobile }}</td>
-                                  <td class="text-center english_text">{{ $student->email }}</td>
-                                  <td class="text-center"><a href="{{ route('dashboard.teachers.index', ['idcard' => $student->teacher->idcard]) }}" class="btn btn-success btn-sm"><i class="nav-icon fas fa-chalkboard-teacher"></i></a></td>
-                                  <td class="text-center">
-                                      @if (auth()->user()->hasPermission('students_update'))
-                                          <a href="{{ route('dashboard.students.edit', $student->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"></i></a>
-                                      @else
-                                          <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-edit"></i> @lang('site.edit')</a>
-                                      @endif
-                                  </td>
-                                  <td class="text-center">
-                                    @if (auth()->user()->hasPermission('students_delete'))
-                                          <form action="{{ route('dashboard.students.destroy', $student->id) }}" method="post" style="display: inline-block">
-                                              {{ csrf_field() }}
-                                              {{ method_field('delete') }}
-                                              <button type="submit" class="btn btn-danger delete btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.delete')"><i class="fa fa-trash"></i></button>
-                                          </form><!-- end of form -->
-                                      @else
-                                          <button class="btn btn-danger btn-sm disabled"><i class="fa fa-trash"></i> @lang('site.delete')</button>
-                                      @endif
-                                  </td>
+                            <tr class="text-center text-bold">
+                              <td>{{ $index + 1 }}</td>
+                              <td>
+                                <button type="button" class="btn" data-toggle="collapse" data-target="#collapseme{{$student->id}}">
+                                  {{ $student->name }}
+                                </button>
+                              </td>
+                              <td>{{ $student->stage }}</td>
+                              <td>{{ $student->class }}</td>
+                              <td>{{ $student->office->name }}</td>
+                              <td>{{ $student->school->name }}</td>
+                              <td>{{ $student->PrograsCount }}</td>
+                              <td>{{ $student->CoursesCount }}</td>
+                              <td><a href="{{ route('dashboard.teachers.index', ['idcard' => $student->teacher->idcard]) }}" class="btn btn-success btn-sm"><i class="nav-icon fas fa-chalkboard-teacher"></i></a></td>
+                              <td>
+                                  @if (auth()->user()->hasPermission('students_update'))
+                                      <a href="{{ route('dashboard.students.edit', $student->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"></i></a>
+                                  @else
+                                      <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-edit"></i> @lang('site.edit')</a>
+                                  @endif
+                              </td>
+                              <td>
+                                @if (auth()->user()->hasPermission('students_delete'))
+                                      <form action="{{ route('dashboard.students.destroy', $student->id) }}" method="post" style="display: inline-block">
+                                          {{ csrf_field() }}
+                                          {{ method_field('delete') }}
+                                          <button type="submit" class="btn btn-danger delete btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.delete')"><i class="fa fa-trash"></i></button>
+                                      </form><!-- end of form -->
+                                  @else
+                                      <button class="btn btn-danger btn-sm disabled"><i class="fa fa-trash"></i> @lang('site.delete')</button>
+                                  @endif
+                              </td>
+                            </tr>
+
+                            <tr id="collapseme{{$student->id}}" class="collapse out ShowHide text-center text-bold">
+                              <td colspan="14">
+                                <div class="table-responsive">
+                                  <table class="table table-striped text-center" dir="rtl">
+                                      <thead>
+                                          <tr class="bg-secondary">
+                                              <th>@lang('site.idcard')</th>
+                                              <th>@lang('site.mobile')</th>
+                                              <th>@lang('site.email')</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                        <td>{{ $student->idcard }}</td>
+                                        <td>{{ $student->mobile }}</td>
+                                        <td>{{ $student->email }}</td>
+                                      </tbody>
+                                  </table>
+                                </div>
+                              </td>
+                            </tr>
+
+                            @if($student->programs->count() > 0)
+                              <tr id="collapseme{{$student->id}}" class="collapse out ShowHide">
+                                <td colspan="14">
+                                  <div class="table-responsive">
+                                    <table class="table table-striped text-center" dir="rtl">
+                                        <thead>
+                                            <tr class="bg-info">
+                                                <th>#</th>
+                                                <th>@lang('site.programs')</th>
+                                                <th>@lang('site.program_date')</th>
+                                                <th>@lang('site.note')</th>
+                                                <th>@lang('site.status')</th>
+                                                <th>@lang('site.print')</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($student->programs as $program)
+                                                {{-- @if($course->pivot->active === 0) --}}
+                                                    <tr class="text-center text-bold">
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $program->name }}</td>
+                                                        <td>{{ $program->pivot->program_date }}</td>
+                                                        <td>{{ $program->pivot->program_note }}</td>
+                                                        <td>
+                                                          @if ($program->pivot->program_status == 1)
+                                                            <i class="fas fa-check-circle text-success"></i>
+                                                          @else
+                                                            <i class="fas fa-times-circle text-danger"></i>
+                                                          @endif
+                                                        </td>
+                                                        <td>
+                                                          <a href="{{ route('dashboard.students.edit', $student->id) }}" class="btn btn-info btn-sm"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="@lang('site.print')"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                {{-- @endif --}}
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                  </div>
+                                </td>
                               </tr>
-                          
+                            @endif
+
+                            @if($student->courses->count() > 0)
+                              <tr id="collapseme{{$student->id}}" class="collapse out ShowHide">
+                                <td colspan="14">
+                                  <div class="table-responsive">
+                                    <table class="table table-striped text-center" dir="rtl">
+                                        <thead>
+                                            <tr class="bg-info">
+                                                <th>#</th>
+                                                <th>@lang('site.courses')</th>
+                                                <th>@lang('site.course_date')</th>
+                                                <th>@lang('site.note')</th>
+                                                <th>@lang('site.status')</th>
+                                                <th>@lang('site.print')</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($student->courses as $course)
+                                              <tr class="text-center text-bold">
+                                                  <td>{{ $loop->iteration }}</td>
+                                                  <td>{{ $course->name }}</td>
+                                                  <td>{{ $course->pivot->course_date }}</td>
+                                                  <td>{{ $course->pivot->course_note }}</td>
+                                                  <td>
+                                                    @if ($course->pivot->course_status == 1)
+                                                      <i class="fas fa-check-circle text-success"></i>
+                                                    @else
+                                                      <i class="fas fa-times-circle text-danger"></i>
+                                                    @endif
+                                                  </td>
+                                                  <td>
+                                                    <a href="{{ route('dashboard.students.edit', $student->id) }}" class="btn btn-info btn-sm"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="@lang('site.print')"></i></a>
+                                                  </td>                                                  
+                                              </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                  </div>
+                                </td>
+                              </tr>
+                            @endif  
+
                           @endforeach
                         </tbody>
-
-                      </table><!-- end of table -->
+                      </table>
+                      <!-- end of table -->
 
                     </div>
 
-                    
-                  
                     {{ $students->appends(request()->query())->links() }}
                   
                   @else
@@ -212,10 +317,10 @@
                       
                   @endif
                 </div>
-                  <!-- /.card-body -->
+                <!-- /.card-body -->
 
-              </div>
-              <!-- /.card -->
+            </div>
+            <!-- /.card -->
 
           </div><!-- /.container-fluid -->
         </section>

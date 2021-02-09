@@ -152,6 +152,31 @@
 
                     </div>
 
+                    {{-- <div class="row">
+                      <div class="col-sm-6">
+                        <!-- text input -->
+                        <div class="form-group">
+                          <label>@lang('site.programs')</label>
+                          <select name="program_id[]" id="program_id" class="form-control select_size" multiple>
+                            @foreach ($programs as $program)
+                                <option value="{{ $program->id }}" {{ old('program_id') == $program->id ? 'selected' : '' }}>{{ $program->name }}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
+                      
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label>@lang('site.courses')</label>
+                          <select name="course_id[]" id="course_id" class="form-control select_size" multiple>
+                            @foreach ($courses as $course)
+                              <option value="{{ $course->id }}" {{ old('course_id') == $course->id ? 'selected' : '' }}>{{ $course->name }}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
+                    </div> --}}
+
                   </div>
                   <!-- /.card-body -->
 

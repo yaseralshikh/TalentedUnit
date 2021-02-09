@@ -18,6 +18,8 @@ return [
             'teachers' => 'c,r,u,d,i,e',
             'students' => 'c,r,u,d,i,e',
             'supervisors' => 'c,r,u,d,i,e',
+            'programs' => 'c,r,u,d,i,e',
+            'courses' => 'c,r,u,d,i,e',
         ],
         'admin' => [],
     ],

@@ -69,6 +69,30 @@
           </li>
         @endif
 
+        <!-- Sidebar programs -->
+        @if (auth()->user()->hasPermission('programs_read'))
+          <li class="nav-item">
+            <a href="{{ route('dashboard.programs.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-user-graduate"></i>
+              <p>
+                @lang('site.programs')
+              </p>
+            </a>
+          </li>
+        @endif
+
+        <!-- Sidebar courses -->
+        @if (auth()->user()->hasPermission('courses_read'))
+          <li class="nav-item">
+            <a href="{{ route('dashboard.courses.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-user-graduate"></i>
+              <p>
+                @lang('site.courses')
+              </p>
+            </a>
+          </li>
+        @endif
+
         <!-- Sidebar supervisors -->
         @if (auth()->user()->hasPermission('supervisors_read'))
           <li class="nav-item">

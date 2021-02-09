@@ -96,6 +96,40 @@
               </div>
               <!-- ./col -->
 
+              <!-- Programs -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-gradient-secondary">
+                  <div class="inner">
+                    <h3>{{ $programs_count }}</h3>
+
+                    <p>@lang('site.programs')</p>
+                  </div>
+                  <div class="icon">
+                    <i class='fas fa-hand-holding-heart'></i>
+                  </div>
+                  <a href="{{ route('dashboard.programs.index') }}" class="small-box-footer">@lang('site.read') <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+
+              <!-- Courses -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-gradient-secondary">
+                  <div class="inner">
+                    <h3>{{ $courses_count }}</h3>
+
+                    <p>@lang('site.courses')</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-tv"></i>
+                  </div>
+                  <a href="{{ route('dashboard.courses.index') }}" class="small-box-footer">@lang('site.read') <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+
               <!-- Admin Users -->
               <div class="col-lg-3 col-6">
                 <!-- small box -->

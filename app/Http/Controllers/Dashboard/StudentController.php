@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Course;
 use App\Http\Controllers\Controller;
 use App\Office;
 use App\Student;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\StudentExport;
 use App\Imports\StudentImport;
+use App\Program;
 
 class StudentController extends Controller
 {
@@ -34,7 +36,7 @@ class StudentController extends Controller
     {
         $offices = Office::all();
 
-        $students = Student::when($request->office_id, function ($q) use ($request) {
+        $students = Student::with('programs')->when($request->office_id, function ($q) use ($request) {
 
             return $q->where('office_id', $request->office_id);
 
@@ -131,6 +133,8 @@ class StudentController extends Controller
     public function create()
     {
         $offices = Office::all();
+        //$programs = Program::select('id', 'name')->get();
+        //$courses = Course::select('id', 'name')->get();
         return view('dashboard.students.create', compact('offices'));
     }
 
@@ -142,6 +146,7 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
         $request->validate([
             'name' => 'required|unique:students,name',
             'idcard' => 'required|digits:10|unique:students,idcard',
@@ -152,12 +157,17 @@ class StudentController extends Controller
             'office_id' => 'required',
             'school_id' => 'required',
             'teacher_id' => 'required',
-            'degree' => 'nullable|numeric'
+            'degree' => 'nullable|numeric',
         ]);
 
         $request_data = $request->all();
 
-        Student::create($request_data);
+        $student = Student::create($request_data);
+
+        //$student->programs()->attach($request->program_id);
+        //$student->courses()->attach($request->course_id);
+        
+
         session()->flash('success', __('site.added_successfully'));
         return redirect()->route('dashboard.students.index');
     }
@@ -181,8 +191,11 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        $offices = Office::all();
-        return view('dashboard.students.edit', compact('student','offices'));
+        $offices = Office::select('id', 'name')->get();
+        $programs = Program::select('id', 'name')->get();
+        $courses = Course::select('id', 'name')->get();
+        //dd($student->programs()->pluck('program_id'));
+        return view('dashboard.students.edit', compact('student','offices', 'programs', 'courses'));
     }
 
     /**
@@ -195,21 +208,25 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         $request->validate([
-            'name' => ['required' , Rule::unique('students')->ignore($student->id),],
-            'idcard' => ['required' , 'digits:10' , Rule::unique('students')->ignore($student->id),],
-            'mobile' => 'nullable|digits_between:10,14',
-            'email' => 'nullable|email',
-            'stage' => 'required',
-            'class' => 'required',
-            'office_id' => 'required',
-            'school_id' => 'required',
-            'teacher_id' => 'required',
-            'degree' => 'nullable|numeric'
+            'name'          => ['required' , Rule::unique('students')->ignore($student->id),],
+            'idcard'        => ['required' , 'digits:10' , Rule::unique('students')->ignore($student->id),],
+            'mobile'        => 'nullable|digits_between:10,14',
+            'email'         => 'nullable|email',
+            'stage'         => 'required',
+            'class'         => 'required',
+            'office_id'     => 'required',
+            'school_id'     => 'required',
+            'teacher_id'    => 'required',
+            'degree'        => 'nullable|numeric',
         ]);
 
         $request_data = $request->all();
 
         $student->update($request_data);
+
+        //$student->programs()->sync($request->program_id);
+        //$student->courses()->sync($request->course_id);
+
         session()->flash('success', __('site.updated_successfully'));
         return redirect()->route('dashboard.students.index');
     }

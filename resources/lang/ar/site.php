@@ -146,4 +146,17 @@ return [
     'about' => 'حول',
     'login' => 'دخول',
 
+    // programs
+    'programs' => 'برامج الرعاية',
+    'program_date' => 'تاريخ الرعاية',
+
+    'description' => 'الوصف',
+    'note' => 'ملاحظات',
+    'status' => 'انجاز نوعي',
+
+    // courses
+    'courses' => 'البرامح التدريبية',
+    'course_date' => 'تاريخ التدريب',
+    
+
 ];

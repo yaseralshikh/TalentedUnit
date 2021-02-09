@@ -7,7 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Imports\OfficeImport;
 use Illuminate\Http\Request;
 use App\Office;
-use Illuminate\Validation\Rule;
+
+
 use Maatwebsite\Excel\Facades\Excel;
 
 class OfficeController extends Controller

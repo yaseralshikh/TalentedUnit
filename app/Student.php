@@ -26,6 +26,26 @@ class Student extends Model
 
     }//end fo teacher
 
+    public function programs()
+    {
+        return $this->belongsToMany('App\Program', 'program_student')->withTimestamps()->withPivot(['id','program_date','program_note','program_status'])->orderBy('program_date', 'desc');
+    }
+
+    public function getPrograsCountAttribute ()
+    {
+        return $this->programs->count();
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany('App\Course', 'course_student')->withTimestamps()->withPivot(['id','course_date','course_note','course_status'])->orderBy('course_date', 'desc');
+    }
+
+    public function getCoursesCountAttribute ()
+    {
+        return $this->courses->count();
+    }
+
     public function getImagePathAttribute()
     {
         return asset('uploads/student_images/' . $this->image);

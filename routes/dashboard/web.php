@@ -24,10 +24,22 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth','role:super_a
 
     // students routes
     Route::resource('students', 'StudentController')->except(['show']);
+    Route::resource('students.programs', 'Student\ProgramController');
+    Route::resource('students.courses', 'Student\CourseController');
     Route::post('/students/export', 'StudentController@export')->name('student_excel_export');
     Route::post('/students/import', 'StudentController@import')->name('student_excel_import');
 
     // supervisors routes
     Route::resource('supervisors', 'SupervisorController')->except(['show']);
+
+    // programs routes
+    Route::resource('programs', 'ProgramController')->except(['show']);
+    Route::post('/programs/export', 'ProgramController@export')->name('program_excel_export');
+    Route::post('/programs/import', 'ProgramController@import')->name('program_excel_import');
+
+    // programs routes
+    Route::resource('courses', 'CourseController')->except(['show']);
+    Route::post('/courses/export', 'CourseController@export')->name('course_excel_export');
+    Route::post('/courses/import', 'CourseController@import')->name('course_excel_import');
 
 });//end of dashboard routes
