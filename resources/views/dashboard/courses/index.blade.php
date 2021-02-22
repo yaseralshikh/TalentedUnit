@@ -64,14 +64,14 @@
                   {{-- @if ($courses->count() > 0) --}}
 
                     <div class="table-responsive">
-                      <table class="table table-hover">
+                      <table class="table">
 
                         <thead class="bg-dark">
                           <tr>
-                              <th>#</th>
+                              <th><button type="button" class="btn btn-sm btn-secondary" data-toggle="collapse" data-target=".ShowHide">#</button></th>
                               <th>@lang('site.name')</th>
-                              <th>@lang('site.description')</th>
-                              {{-- <th class="text-center">@lang('site.related_schools')</th> --}}
+                              {{-- <th>@lang('site.description')</th> --}}
+                              <th class="text-center">@lang('site.related_students')</th>
                               <th width="10%" colspan="2" class="text-center">@lang('site.action')</th>
                           </tr>
                         </thead>
@@ -80,9 +80,11 @@
                           @forelse ($courses as $index=>$course)
                               <tr>
                                   <td>{{ $index + 1 }}</td>
-                                  <td class="h6 text-justify">{{ $course->name }}</td>
-                                  <td class="h6 text-justify">{{ $course->description }}</td>
-                                  {{-- <td class="text-center"><a href="{{ route('dashboard.schools.index', ['course_id' => $course->id]) }}" class="btn btn-success btn-sm"><span class="border border-warning bg-dark">&nbsp;{{ $course->schools->count() }}&nbsp;</span> <i class="fas fa-school"></i></a></td> --}}
+                                  <td class="h6 text-justify">
+                                    <button type="button" class="btn btn-sm btn-light" data-toggle="collapse" data-target="#collapseme{{$course->id}}">{{ $course->name }}</button>
+                                  </td>                                  
+                                  {{-- <td class="h6 text-justify">{{ $course->description }}</td> --}}
+                                  <td class="text-center h6">{{ $course->students->count() }} <i class="fas fa-user-graduate"></i></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('courses_update'))
                                           <a href="{{ route('dashboard.courses.edit', $course->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"><i class="fa fa-edit"></i></a>
@@ -103,6 +105,36 @@
                                   </td>
                               </tr>
 
+                              @if($course->students->count() > 0)
+                                <tr id="collapseme{{$course->id}}" class="collapse out ShowHide">
+                                  <td colspan="7">
+                                    <div class="table-responsive">
+                                      <table class="table table-striped text-center" dir="rtl">
+                                          <thead>
+                                              <tr class="bg-info">
+                                                  <th>#</th>
+                                                  <th>@lang('site.name')</th>
+                                                  <th>@lang('site.idcard')</th>
+                                                  <th>@lang('site.school')</th>
+                                                  <th>@lang('site.office')</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              @foreach($course->students as $student)
+                                                <tr class="text-center text-bold">
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $student->name }}</td>
+                                                    <td>{{ $student->idcard }}</td>
+                                                    <td>{{ $student->school->name }}</td>
+                                                    <td>{{ $student->office->name }}</td>
+                                                </tr>
+                                              @endforeach
+                                          </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                </tr>
+                              @endif
                           @empty
                               <tr>
                                 <td colspan="5" class="text-center">

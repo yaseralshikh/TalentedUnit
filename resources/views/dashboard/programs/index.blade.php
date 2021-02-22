@@ -64,15 +64,15 @@
                   {{-- @if ($programs->count() > 0) --}}
 
                     <div class="table-responsive">
-                      <table class="table table-hover">
+                      <table class="table">
 
                         <thead class="bg-dark">
                           <tr>
-                              <th>#</th>
+                              <th><button type="button" class="btn btn-sm btn-secondary" data-toggle="collapse" data-target=".ShowHide">#</button></th>
                               <th>@lang('site.name')</th>
-                              <th>@lang('site.description')</th>
-                              <th>@lang('site.created_at')</th>
-                              {{-- <th class="text-center">@lang('site.related_schools')</th> --}}
+                              {{-- <th>@lang('site.description')</th> --}}
+                              {{-- <th>@lang('site.created_at')</th> --}}
+                              <th class="text-center">@lang('site.related_students')</th>
                               <th width="10%" colspan="2" class="text-center">@lang('site.action')</th>
                           </tr>
                         </thead>
@@ -81,10 +81,13 @@
                           @forelse ($programs as $index=>$program)
                               <tr>
                                   <td>{{ $index + 1 }}</td>
-                                  <td class="h6 text-justify">{{ $program->name }}</td>
-                                  <td class="h6 text-justify">{{ $program->description }}</td>
-                                  <td class="h6 text-justify">{{ Alkoumi\LaravelHijriDate\Hijri::Date('Y', $program->created_at) }} هـ</td>
-                                  {{-- <td class="text-center"><a href="{{ route('dashboard.schools.index', ['program_id' => $program->id]) }}" class="btn btn-success btn-sm"><span class="border border-warning bg-dark">&nbsp;{{ $program->schools->count() }}&nbsp;</span> <i class="fas fa-school"></i></a></td> --}}
+                                  <td class="h6 text-justify">
+                                    <button type="button" class="btn btn-sm btn-light" data-toggle="collapse" data-target="#collapseme{{$program->id}}">{{ $program->name }}</button>
+                                  </td>
+                                  {{-- <td class="h6 text-justify">{{ $program->description }}</td> --}}
+                                  {{-- <td class="h6 text-justify">{{ Alkoumi\LaravelHijriDate\Hijri::Date('Y', $program->created_at) }} هـ</td> --}}
+                                  {{-- <td class="text-center h6"><a href="{{ route('dashboard.students.index', ['program_id' => $program->id]) }}" class="btn btn-secondary btn-sm">{{ $program->students->count() }} <i class="nav-icon fas fa-user-graduate"></i></a></td> --}}
+                                  <td class="text-center h6">{{ $program->students->count() }} <i class="nav-icon fas fa-user-graduate"></i></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('programs_update'))
                                           <a href="{{ route('dashboard.programs.edit', $program->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"><i class="fa fa-edit"></i></a>
@@ -105,6 +108,36 @@
                                   </td>
                               </tr>
 
+                              @if($program->students->count() > 0)
+                                <tr id="collapseme{{$program->id}}" class="collapse out ShowHide">
+                                  <td colspan="7">
+                                    <div class="table-responsive">
+                                      <table class="table table-striped text-center" dir="rtl">
+                                          <thead>
+                                              <tr class="bg-info">
+                                                  <th>#</th>
+                                                  <th>@lang('site.name')</th>
+                                                  <th>@lang('site.idcard')</th>
+                                                  <th>@lang('site.school')</th>
+                                                  <th>@lang('site.office')</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              @foreach($program->students as $student)
+                                                <tr class="text-center text-bold">
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $student->name }}</td>
+                                                    <td>{{ $student->idcard }}</td>
+                                                    <td>{{ $student->school->name }}</td>
+                                                    <td>{{ $student->office->name }}</td>
+                                                </tr>
+                                              @endforeach
+                                          </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                </tr>
+                              @endif
                           @empty
                               <tr>
                                 <td colspan="5" class="text-center">

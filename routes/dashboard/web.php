@@ -24,10 +24,17 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth','role:super_a
 
     // students routes
     Route::resource('students', 'StudentController')->except(['show']);
-    Route::resource('students.programs', 'Student\ProgramController');
-    Route::resource('students.courses', 'Student\CourseController');
     Route::post('/students/export', 'StudentController@export')->name('student_excel_export');
     Route::post('/students/import', 'StudentController@import')->name('student_excel_import');
+
+    Route::resource('students.programs', 'Student\ProgramController');
+    Route::PUT('students.programs', 'Student\ProgramController@update_program')->name('update_program');
+
+    Route::resource('students.courses', 'Student\CourseController');
+    Route::PUT('students.courses', 'Student\CourseController@update_course')->name('update_course');
+
+    Route::get('student/{student_id}/program/{program_id}/pivot_id/{pivot_id}/pdf','Student\ProgramController@student_program_pdf')->name('student_program_pdf');
+    Route::get('student/{student_id}/course/{course_id}/pivot_id/{pivot_id}/pdf','Student\CourseController@student_course_pdf')->name('student_course_pdf');
 
     // supervisors routes
     Route::resource('supervisors', 'SupervisorController')->except(['show']);

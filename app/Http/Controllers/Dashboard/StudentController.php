@@ -243,4 +243,5 @@ class StudentController extends Controller
         session()->flash('success', __('site.deleted_successfully'));
         return redirect()->route('dashboard.students.index');
     }
+
 }

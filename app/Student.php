@@ -28,7 +28,7 @@ class Student extends Model
 
     public function programs()
     {
-        return $this->belongsToMany('App\Program', 'program_student')->withTimestamps()->withPivot(['id','program_date','program_note','program_status'])->orderBy('program_date', 'desc');
+        return $this->belongsToMany('App\Program', 'program_student')->withTimestamps()->withPivot(['id', 'student_id','program_date','program_note','program_status'])->orderBy('program_date', 'desc');
     }
 
     public function getPrograsCountAttribute ()

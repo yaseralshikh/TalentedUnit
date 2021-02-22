@@ -113,7 +113,7 @@
                               <tr>
                                   <td>{{ $index + 1 }}</td>
                                   <td>{{ $office->name }}</td>
-                                  <td class="text-center"><a href="{{ route('dashboard.schools.index', ['office_id' => $office->id]) }}" class="btn btn-success btn-sm"><span class="border border-warning bg-dark">&nbsp;{{ $office->schools->count() }}&nbsp;</span> <i class="fas fa-school"></i></a></td>
+                                  <td class="text-center"><a href="{{ route('dashboard.schools.index', ['office_id' => $office->id]) }}" class="btn btn-light btn-sm text-secondary">{{ $office->schools->count() }} <i class="fas fa-school"></i></a></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('offices_update'))
                                           <a href="{{ route('dashboard.offices.edit', $office->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"><i class="fa fa-edit"></i></a>

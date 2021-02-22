@@ -93,7 +93,7 @@
                       @if (auth()->user()->hasPermission('students_export'))
                           <button class="btn btn-success btn-sm float-right" id='export'><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
                       @else
-                          <button class="btn btn-success btn-sm float-right disabled"<i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
+                          <button class="btn btn-success btn-sm float-right disabled"><i class="far fa-file-excel" aria-hidden="true"></i> @lang('site.export')</button>
                       @endif
 
                       @if (auth()->user()->hasPermission('students_create'))
@@ -144,7 +144,7 @@
                   @if ($students->count() > 0)
 
                     <div class="table-responsive">
-                      <table class="table table-hover">
+                      <table class="table">
 
                         <thead class="bg-dark">
                           <tr class="text-center">
@@ -163,7 +163,7 @@
                         
                         <tbody>
                           @foreach ($students as $index=>$student)
-                            <tr class="text-center text-bold">
+                            <tr class="text-center text-bold" style="background-color: rgb(237, 252, 255)">
                               <td>{{ $index + 1 }}</td>
                               <td>
                                 <button type="button" class="btn" data-toggle="collapse" data-target="#collapseme{{$student->id}}">
@@ -249,7 +249,11 @@
                                                           @endif
                                                         </td>
                                                         <td>
-                                                          <a href="{{ route('dashboard.students.edit', $student->id) }}" class="btn btn-info btn-sm"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="@lang('site.print')"></i></a>
+                                                          {{-- @if ($program->pivot->program_status == 1) --}}
+                                                          <a href="{{ route('dashboard.student_program_pdf', [$student->id , $program->id, $program->pivot->id] ) }}" class="btn btn-info btn-sm"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="@lang('site.print')"></i></a>
+                                                          {{-- @else
+                                                            <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="@lang('site.print')"></i></a>
+                                                          @endif --}}
                                                         </td>
                                                     </tr>
                                                 {{-- @endif --}}
@@ -291,7 +295,11 @@
                                                     @endif
                                                   </td>
                                                   <td>
-                                                    <a href="{{ route('dashboard.students.edit', $student->id) }}" class="btn btn-info btn-sm"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="@lang('site.print')"></i></a>
+                                                    @if ($course->pivot->course_status == 1)
+                                                      <a href="{{ route('dashboard.student_course_pdf', [$student->id , $course->id, $course->pivot->id] ) }}" class="btn btn-info btn-sm"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="@lang('site.print')"></i></a>
+                                                    @else
+                                                      <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="@lang('site.print')"></i></a>
+                                                    @endif
                                                   </td>                                                  
                                               </tr>
                                             @endforeach

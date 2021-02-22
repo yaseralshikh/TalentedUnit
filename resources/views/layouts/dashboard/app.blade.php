@@ -26,7 +26,8 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('dashboard_files/plugins/summernote/summernote-bs4.css') }}">
     <!-- bootstrap-hijridate-->
-    <link rel="stylesheet" href="{{ asset('dashboard_files/plugins/bootstrap-hijridate/css/bootstrap-datetimepicker.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('dashboard_files/plugins/bootstrap-hijridate/css/bootstrap-datetimepicker.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('dashboard_files/plugins/hijri-datepicker-master/css/bootstrap-datetimepicker.min.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Cairo:400,700" rel="stylesheet">
@@ -101,8 +102,7 @@
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('dashboard_files/dist/js/demo.js') }}"></script>
     <!-- hijridate-->
-    {{-- <script src="{{ asset('dashboard_files/plugins/bootstrap-hijridate/js/bootstrap-hijri-datetimepicker.js') }}"></script> --}}
-    <script src="{{ asset('dashboard_files/plugins/bootstrap-hijridate/js/bootstrap-hijri-datetimepicker.js') }}"></script>
+    <script src="{{ asset('dashboard_files/plugins/hijri-datepicker-master/js/bootstrap-hijri-datetimepickermin.js') }}"></script>
 
     <script>
       $(document).ready(function () {
@@ -140,29 +140,16 @@
       });//end of ready
     </script>  
 
-    <script type="text/javascript">
 
-
+  <script>
       $(function () {
 
-          initHijrDatePicker();
-
-          initHijrDatePickerDefault();
-
-          $('.disable-date').hijriDatePicker({
-
-              minDate:"2020-01-01",
-              maxDate:"2021-01-01",
-              viewMode:"years",
-              hijri:true,
-              debug:true
-          });
+        initDefault();
 
       });
 
-      function initHijrDatePicker() {
-
-          $(".hijri-date-input").hijriDatePicker({
+      function initDefault() {
+        $(".hijri-picker").hijriDatePicker({
               locale: "ar-sa",
               format: "DD-MM-YYYY",
               hijriFormat:"iYYYY-iMM-iDD",
@@ -173,22 +160,17 @@
               showTodayButton: false,
               useCurrent: true,
               isRTL: false,
-              viewMode:'months',
+              viewMode:'days',
               keepOpen: false,
               hijri: true,
               debug: true,
               showClear: true,
               showTodayButton: true,
               showClose: true
-          });
-      }
+        });
+      } 
+  </script>
 
-      function initHijrDatePickerDefault() {
-
-          $(".hijri-date-default").hijriDatePicker();
-      }
-
-    </script>
 
     <!-- Custom Script -->
     <script src="{{ asset('dashboard_files/dist/js/custom/image_preview.js') }}"></script>

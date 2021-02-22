@@ -215,7 +215,7 @@
                             <div class="col-sm-6">
                               <div class="form-group">
                                 <label>@lang('site.program_date')</label>
-                                <input type='text' name="program_date" class="form-control hijri-date-input" />      
+                                <input type='text' name="program_date" class="form-control hijri-picker" />      
                               </div>
                             </div>
                           </div>
@@ -233,7 +233,11 @@
                       </div>
                       <div class="card-footer">
                         <div class="form-group">
-                          <button type="submit" class="btn btn-info"><i class="fas fa-edit"></i> @lang('site.create')</button>
+                          @if (auth()->user()->hasPermission('programs_create'))
+                            <button type="submit" class="btn btn-info"><i class="fas fa-edit"></i> @lang('site.create')</button>
+                          @else
+                            <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-edit"></i> @lang('site.create')</a>
+                          @endif
                         </div>   
                       </div> 
                     </form>                     
@@ -268,22 +272,24 @@
                                       </td>
 
                                       <td>
-                                        @if (auth()->user()->hasPermission('students_update'))
-                                            <a href="{{ route('dashboard.students.programs.edit', [$student->id, $program->pivot->id] ) }}" class="btn btn-info btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"></i></a>
+                                        @if (auth()->user()->hasPermission('programs_update'))
+                                            <button type="button" class="btn btn-info btn-sm" id="edit_program_btn" data-current-program-id="{{ $program->pivot['id'] }}" data-program-id="{{ $program['id'] }}" data-program-date="{{ $program->pivot['program_date'] }}" data-program-note="{{  $program->pivot['program_note'] }}" data-program-status="{{ $program->pivot['program_status'] }}" data-toggle="modal" data-target="#programForm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"></i></button>
+                                            {{-- <a href="{{ route('dashboard.students.programs.edit', [$student->id, $program->pivot->id] ) }}" class="btn btn-info btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"></i></a> --}}
                                         @else
-                                            <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-edit"></i> @lang('site.edit')</a>
+                                            <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-edit"></i></a>
                                         @endif
                                     </td>
 
                                     <td>
-                                      @if (auth()->user()->hasPermission('students_delete'))
+                                      @if (auth()->user()->hasPermission('programs_delete'))
+                                          {{-- <button type="submit" class="btn btn-danger  btn-sm destroy_program-btn" data-student-id="{{ $student['id'] }}" data-url='{{ route('dashboard.destroy2', $program->pivot['id'] )}}' data-method="delete" data-toggle="tooltip" data-placement="top" title="@lang('site.delete')"><i class="fa fa-trash"></i></button> --}}
                                           <form action="{{ route('dashboard.students.programs.destroy', [$student->id, $program->pivot->id]) }}" method="post" style="display: inline-block">
                                               {{ csrf_field() }}
                                               {{ method_field('delete') }}
                                               <button type="submit" class="btn btn-danger delete btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.delete')"><i class="fa fa-trash"></i></button>
                                           </form><!-- end of form -->
                                         @else
-                                            <button class="btn btn-danger btn-sm disabled"><i class="fa fa-trash"></i> @lang('site.delete')</button>
+                                            <button class="btn btn-danger btn-sm disabled"><i class="fa fa-trash"></i></button>
                                         @endif
                                     </td>
       
@@ -302,8 +308,8 @@
                         @lang('site.courses')
                       </div>
                       <div class="card-body">
-                        <form action="{{ route('dashboard.students.update', $student->id) }}" method="post">
-
+                        <form action="{{ route('dashboard.students.courses.store', $student->id) }}" method="post">
+                          @csrf
                           <div class="row">
                             <div class="col-sm-6">
                               <div class="form-group">
@@ -318,11 +324,11 @@
                             <div class="col-sm-6">
                               <div class="form-group">
                                 <label>@lang('site.course_date')</label>
-                                <input type='text' name="course_date" class="form-control hijri-date-input" />      
+                                <input type='text' name="course_date" class="form-control hijri-picker" />      
                               </div>
                             </div>
                           </div>
-                          
+
                           <div class="form-group">
                             <label>@lang('site.note')</label>
                             <textarea name="course_note" cols="20" rows="4" class="form-control"></textarea>
@@ -330,17 +336,22 @@
 
                           <div class="form-group">
                             <label><input name="course_status" type="checkbox" value="1"> @lang('site.status')</label>
-                          </div>
-                                            
-                        </form>
+                          </div>                 
+
+
                       </div>
                       <div class="card-footer">
                         <div class="form-group">
-                          <button type="submit" class="btn btn-info"><i class="fas fa-edit"></i> @lang('site.create')</button>
+                          @if (auth()->user()->hasPermission('courses_create'))
+                            <button type="submit" class="btn btn-info"><i class="fas fa-edit"></i> @lang('site.create')</button>
+                          @else
+                            <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-edit"></i> @lang('site.create')</a>
+                          @endif
                         </div>   
-                      </div>
+                      </div> 
+                    </form>                     
                     </div>  
-                    
+
                     @if($student->courses->count() > 0)
                       <div class="table-responsive">
                         <table class="table table-striped text-center" dir="rtl">
@@ -360,33 +371,34 @@
                                       <td>{{ $loop->iteration }}</td>
                                       <td>{{ $course->name }}</td>
                                       <td>{{ $course->pivot->course_date }}</td>
-                                      {{-- <td>{{ Carbon\Carbon::createFromTimestamp($course->course_date)->year  }}</td> --}}
                                       <td class="text-justify text-center">{{ $course->pivot->course_note }}</td>
                                       <td>
-                                          @if ($course->pivot->course_status == 1)
-                                            <i class="fas fa-check-circle text-success"></i>
-                                          @else
-                                            <i class="fas fa-times-circle text-danger"></i>
-                                          @endif
+                                        @if ($course->pivot->course_status == 1)
+                                          <i class="fas fa-check-circle text-success"></i>
+                                        @else
+                                          <i class="fas fa-times-circle text-danger"></i>
+                                        @endif                             
                                       </td>
 
                                       <td>
-                                        @if (auth()->user()->hasPermission('students_update'))
-                                            <a href="{{ route('dashboard.students.edit', $student->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"></i></a>
+                                        @if (auth()->user()->hasPermission('courses_update'))
+                                            <button type="button" class="btn btn-info btn-sm" id="edit_course_btn" data-current-course-id="{{ $course->pivot['id'] }}" data-course-id="{{ $course['id'] }}" data-course-date="{{ $course->pivot['course_date'] }}" data-course-note="{{  $course->pivot['course_note'] }}" data-course-status="{{ $course->pivot['course_status'] }}" data-toggle="modal" data-target="#courseForm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"></i></button>
+                                            {{-- <a href="{{ route('dashboard.students.programs.edit', [$student->id, $program->pivot->id] ) }}" class="btn btn-info btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"></i></a> --}}
                                         @else
-                                            <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-edit"></i> @lang('site.edit')</a>
+                                            <a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-edit"></i></a>
                                         @endif
                                     </td>
-                                    
+
                                     <td>
-                                      @if (auth()->user()->hasPermission('students_delete'))
-                                            <form action="{{ route('dashboard.students.destroy', $student->id) }}" method="post" style="display: inline-block">
-                                                {{ csrf_field() }}
-                                                {{ method_field('delete') }}
-                                                <button type="submit" class="btn btn-danger delete btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.delete')"><i class="fa fa-trash"></i></button>
-                                            </form><!-- end of form -->
+                                      @if (auth()->user()->hasPermission('courses_delete'))
+                                          {{-- <button type="submit" class="btn btn-danger  btn-sm destroy_program-btn" data-student-id="{{ $student['id'] }}" data-url='{{ route('dashboard.destroy2', $program->pivot['id'] )}}' data-method="delete" data-toggle="tooltip" data-placement="top" title="@lang('site.delete')"><i class="fa fa-trash"></i></button> --}}
+                                          <form action="{{ route('dashboard.students.courses.destroy', [$student->id, $course->pivot->id]) }}" method="post" style="display: inline-block">
+                                              {{ csrf_field() }}
+                                              {{ method_field('delete') }}
+                                              <button type="submit" class="btn btn-danger delete btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.delete')"><i class="fa fa-trash"></i></button>
+                                          </form><!-- end of form -->
                                         @else
-                                            <button class="btn btn-danger btn-sm disabled"><i class="fa fa-trash"></i> @lang('site.delete')</button>
+                                            <button class="btn btn-danger btn-sm disabled"><i class="fa fa-trash"></i></button>
                                         @endif
                                     </td>
       
@@ -394,11 +406,112 @@
                                 @endforeach
                             </tbody>
                         </table>
-                      </div>   
+                      </div>  
                     @endif
-
+                                    
                   </div>
                 </div>
+
+                <div class="modal fade" id="programForm" tabindex="-1" role="dialog" aria-labelledby="programFormLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header bg-info">
+                              <h5 class="modal-title" id="programFormLabel">@lang('site.student') / {{ $student->name }}</h5> <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                          </div>
+                          <div class="modal-body">
+                            <form action="{{ route('dashboard.update_program') }}" method="post">
+                              {{ csrf_field() }}
+                              {{ method_field('PUT') }}
+                              <div class="row">
+                                <input type="hidden" id="current_program_id" name="id">
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label>@lang('site.programs')</label>
+                                    <select name="program_id" id="pivot_program_id" class="form-control select_size">
+                                      @foreach ($programs as $program)
+                                          <option value="{{ $program->id }}">{{ $program->name }}</option>
+                                      @endforeach
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label>@lang('site.program_date')</label>
+                                    <input type='text' name="program_date" id="pivot_program_date" class="form-control hijri-picker" />      
+                                  </div>
+                                </div>
+                              </div>
+    
+                              <div class="form-group">
+                                <label>@lang('site.note')</label>
+                                <textarea name="program_note" id="pivot_program_note" cols="20" rows="4" class="form-control"></textarea>
+                              </div>
+    
+                              <div class="form-group">
+                                <label><input name="program_status" id="pivot_program_status" type="checkbox" value="1"> @lang('site.status')</label>
+                              </div>                   
+                            </div>
+                            <div class="card-footer">
+                              <div class="form-group">
+                                <button type="submit" class="btn btn-info"><i class="fas fa-edit"></i> @lang('site.edit')</button>
+                              </div>   
+                            </div> 
+                          </form>  
+                          </div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="modal fade" id="courseForm" tabindex="-1" role="dialog" aria-labelledby="courseFormLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header bg-info">
+                              <h5 class="modal-title" id="courseFormLabel">@lang('site.student') / {{ $student->name }}</h5> <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                          </div>
+                          <div class="modal-body">
+                            <form action="{{ route('dashboard.update_course') }}" method="post">
+                              {{ csrf_field() }}
+                              {{ method_field('PUT') }}
+                              <div class="row">
+                                <input type="hidden" id="current_course_id" name="id">
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label>@lang('site.courses')</label>
+                                    <select name="course_id" id="pivot_course_id" class="form-control select_size">
+                                      @foreach ($courses as $course)
+                                          <option value="{{ $course->id }}">{{ $course->name }}</option>
+                                      @endforeach
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label>@lang('site.course_date')</label>
+                                    <input type='text' name="course_date" id="pivot_course_date" class="form-control hijri-picker" />      
+                                  </div>
+                                </div>
+                              </div>
+    
+                              <div class="form-group">
+                                <label>@lang('site.note')</label>
+                                <textarea name="course_note" id="pivot_course_note" cols="20" rows="4" class="form-control"></textarea>
+                              </div>
+    
+                              <div class="form-group">
+                                <label><input name="course_status" id="pivot_course_status" type="checkbox" value="1"> @lang('site.status')</label>
+                              </div>                   
+                            </div>
+                            <div class="card-footer">
+                              <div class="form-group">
+                                <button type="submit" class="btn btn-info"><i class="fas fa-edit"></i> @lang('site.edit')</button>
+                              </div>   
+                            </div> 
+                          </form>  
+                          </div>
+                      </div>
+                  </div>
+                </div>              
+
               </div>
               <!-- /.card-body -->
             </div>
@@ -512,6 +625,72 @@
               }
           }
         }
+
+        $('body').on('click', '#edit_program_btn', function(e){
+          var current_program_id = $(this).data('current-program-id');
+          var program_id = $(this).data('program-id');
+          var date = $(this).data('program-date');
+          var note = $(this).data('program-note');
+          var status = $(this).data('program-status');
+
+          $('#current_program_id').val(current_program_id);
+          $("#pivot_program_id").val(program_id).change();
+          $('#pivot_program_date').val(date);
+          $('#pivot_program_note').val(note);
+          if (status){
+              $( "#pivot_program_status").prop('checked', true);
+          } else {
+              $( "#pivot_program_status").prop('checked', false);
+          }          
+        });
+
+
+        $('body').on('click', '#edit_course_btn', function(e){
+          var current_course_id = $(this).data('current-course-id');
+          var course_id = $(this).data('course-id');
+          var date = $(this).data('course-date');
+          var note = $(this).data('course-note');
+          var status = $(this).data('course-status');
+
+          $('#current_course_id').val(current_course_id);
+          $("#pivot_course_id").val(course_id).change();
+          $('#pivot_course_date').val(date);
+          $('#pivot_course_note').val(note);
+          if (status){
+              $( "#pivot_course_status").prop('checked', true);
+          } else {
+              $( "#pivot_course_status").prop('checked', false);
+          }          
+        });        
+
+        // $('body').on('click', '.destroy_program-btn', function(e){
+        //   e.preventDefault();
+
+        //   var url = $(this).data('url');
+        //   var method = $(this).data('method');
+        //   var student = $(this).data('student-id');
+        //   var program = $(this).data('program-id');
+        //   var token = "{{ csrf_token() }}";
+
+        //   $.ajax({
+        //       type: 'post',
+        //       method: method,
+        //       url: url,
+        //       data:{
+        //           _token: token,
+        //           'student' : student,
+        //           'program' : program,
+        //       },
+        //       datatype:'json',
+        //       success: function(data) {
+        //           console.log(data);
+        //           $(this).closest('tr').remove();
+        //       },
+        //       error: function(request) {
+        //           console.log('Error Message : ' + err.message);
+        //       }
+        //   });
+        // });
        
     });    
   </script>

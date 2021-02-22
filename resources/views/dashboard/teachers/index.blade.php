@@ -146,7 +146,7 @@
                                   <td class="text-center">{{ $teacher->office->name }}</td>
                                   <td class="text-center">{{ $teacher->school->name }}</td>
                                   <td class="text-center">{{ $teacher->specialization }}</td>
-                                  <td class="text-center"><a href="{{ route('dashboard.students.index', ['teacher_id' => $teacher->idcard]) }}" class="btn btn-secondary btn-sm"><span class="border border-warning bg-dark">&nbsp;{{ $teacher->students->count() }}&nbsp;</span><i class="nav-icon fas fa-user-graduate"></i></a></td>
+                                  <td class="text-center"><a href="{{ route('dashboard.students.index', ['teacher_id' => $teacher->idcard]) }}" class="btn btn-secondary btn-sm">{{ $teacher->students->count() }} <i class="nav-icon fas fa-user-graduate"></i></a></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('teachers_update'))
                                           <a href="{{ route('dashboard.teachers.edit', $teacher->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"><i class="fa fa-edit"></i></a>

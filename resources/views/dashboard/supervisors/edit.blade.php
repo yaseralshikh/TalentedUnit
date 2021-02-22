@@ -124,7 +124,7 @@
                           <label>@lang('site.permissions')</label>
 
                           @php
-                              $models = ['offices', 'schools', 'teachers', 'students', 'supervisors', 'programs', 'courses'];
+                              $models = ['offices', 'schools', 'teachers', 'students','programs', 'courses', 'supervisors'];
                               $maps = ['create', 'read', 'update', 'delete', 'import', 'export'];
                           @endphp
 

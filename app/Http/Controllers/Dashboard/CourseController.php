@@ -6,6 +6,8 @@ use App\Course;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Exports\CourseExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CourseController extends Controller
 {
@@ -35,6 +37,11 @@ class CourseController extends Controller
 
         return view('dashboard.courses.index', compact('courses'));
     }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new CourseExport($request), 'Courses.xlsx');
+    }     
 
     /**
      * Show the form for creating a new resource.

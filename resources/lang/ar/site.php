@@ -154,6 +154,9 @@ return [
     'note' => 'ملاحظات',
     'status' => 'انجاز نوعي',
 
+    'related_students' => 'الطلاب',
+    'program_status_not_allowed' => 'الطالب لم يحقق انجاز نوعي .',
+
     // courses
     'courses' => 'البرامح التدريبية',
     'course_date' => 'تاريخ التدريب',

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Program;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Exports\ProgramExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProgramController extends Controller
 {
@@ -28,13 +30,18 @@ class ProgramController extends Controller
      */
     public function index(Request $request)
     {
-        $programs = Program::when($request->search, function ($q) use ($request) {
+        $programs = Program::with('students')->when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
 
         })->paginate(10);
 
         return view('dashboard.programs.index', compact('programs'));
     }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new ProgramExport($request), 'Programs.xlsx');
+    }    
 
     /**
      * Show the form for creating a new resource.

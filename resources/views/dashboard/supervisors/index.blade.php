@@ -85,7 +85,7 @@
                                   <td class="text-center">{{ $supervisor->mobile }}</td>
                                   <td class="text-center english_text">{{ $supervisor->email }}</td>
                                   <td class="text-center">{{ $supervisor->office->name }}</td>
-                                  <td class="text-center" width="11%"><a href="{{ route('dashboard.schools.index', ['office_id' => $supervisor->office->id]) }}" class="btn btn-success btn-sm"><span class="border border-warning bg-dark">&nbsp;{{ $supervisor->office->schools->count() }}&nbsp;</span><i class="fas fa-school"></i></a></td>
+                                  <td class="text-center" width="11%"><a href="{{ route('dashboard.schools.index', ['office_id' => $supervisor->office->id]) }}" class="btn btn-light btn-sm text-secondary">{{ $supervisor->office->schools->count() }} <i class="fas fa-school"></i></a></td>
                                   <td class="text-center">
                                       @if (auth()->user()->hasPermission('supervisors_update'))
                                           <a href="{{ route('dashboard.supervisors.edit', $supervisor->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="@lang('site.edit')"><i class="fa fa-edit"></i></a>
