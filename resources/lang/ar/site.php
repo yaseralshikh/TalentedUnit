@@ -98,6 +98,7 @@ return [
     'english' => 'انقليزي',
     'psychology' => 'علم نفس',
     'computer' => 'حاسب آلي',
+    'special_breeding' => 'تربية خاصة',
     'other' => 'أخرى',
 
 

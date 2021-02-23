@@ -154,7 +154,7 @@ class TeacherController extends Controller
     {
         $request->validate([
             'name' => ['required'],
-            'idcard' => 'required|unique:teachers,idcard',
+            'idcard' => 'required',     //|unique:teachers,idcard',
             'mobile' => 'nullable|digits_between:10,14',
             'email' => 'nullable|email'
         ]);
@@ -212,7 +212,7 @@ class TeacherController extends Controller
     {
         $request->validate([
             'name' => ['required' , Rule::unique('teachers')->ignore($teacher->id),],
-            'idcard' => ['required' , 'digits:10' , Rule::unique('teachers')->ignore($teacher->id),],
+            'idcard' => ['required' , 'digits:10'],         // , Rule::unique('teachers')->ignore($teacher->id),],
             'mobile' => 'nullable|digits_between:10,14',
             'email' => 'nullable|email'
         ]);

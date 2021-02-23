@@ -163,7 +163,7 @@
                         
                         <tbody>
                           @foreach ($students as $index=>$student)
-                            <tr class="text-center text-bold" style="background-color: rgb(237, 252, 255)">
+                            <tr class="text-center text-bold" style="background-color: rgb(233, 242, 248)">
                               <td>{{ $index + 1 }}</td>
                               <td>
                                 <button type="button" class="btn" data-toggle="collapse" data-target="#collapseme{{$student->id}}">

@@ -89,7 +89,8 @@
                                               , trans('site.mathematics'), trans('site.miology'), trans('site.chemistry')
                                               , trans('site.physics'), trans('site.social_studies'), trans('site.art')
                                               , trans('site.Physical'), trans('site.english'), trans('site.psychology')
-                                              , trans('site.computer'), trans('site.arabic_language'), trans('site.other')];
+                                              , trans('site.computer'), trans('site.arabic_language'), trans('site.special_breeding')
+                                              , trans('site.other')];
                           @endphp
 
                           <label>@lang('site.specialization')</label>
