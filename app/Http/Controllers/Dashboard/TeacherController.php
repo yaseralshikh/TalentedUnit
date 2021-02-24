@@ -36,6 +36,8 @@ class TeacherController extends Controller
     {
         $offices = Office::all();
 
+        $ordrtBy = $request->order_by;
+
         $teachers = Teacher::when($request->office_id, function ($q) use ($request) {
 
                 return $q->where('office_id', $request->office_id);
@@ -60,7 +62,7 @@ class TeacherController extends Controller
                         ->orWhere('mobile', 'like', '%' . $request->search . '%')
                         ->orWhere('email', 'like', '%' . $request->search . '%');
 
-            })->orderBy('name')->paginate(50);
+            })->orderBy(($ordrtBy !==Null ? $ordrtBy : 'name'))->paginate(50);
 
         return view('dashboard.teachers.index', compact('offices', 'teachers'));
     }

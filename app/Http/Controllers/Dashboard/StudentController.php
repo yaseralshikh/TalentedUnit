@@ -36,6 +36,8 @@ class StudentController extends Controller
     {
         $offices = Office::all();
 
+        $ordrtBy = $request->order_by;
+
         $students = Student::with('programs')->when($request->office_id, function ($q) use ($request) {
 
             return $q->where('office_id', $request->office_id);
@@ -63,7 +65,7 @@ class StudentController extends Controller
                      ->orWhere('mobile', $request->search)
                      ->orWhere('email', 'like', '%' . $request->search . '%');
 
-        })->orderBy('name')->paginate(150);
+        })->orderBy(($ordrtBy !==Null ? $ordrtBy : 'name'))->paginate(150);
 
         return view('dashboard.students.index', compact('offices', 'students'));
     }

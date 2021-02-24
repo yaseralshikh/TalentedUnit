@@ -125,13 +125,13 @@
                         <thead class="bg-dark">
                           <tr>
                               <th>#</th>
-                              <th>@lang('site.name')</th>
-                              <th width="120px" class="text-center">@lang('site.moeid')</th>
-                              <th class="text-center">@lang('site.office')</th>
-                              <th class="text-center">@lang('site.stage')</th>
-                              <th>@lang('site.manager')</th>
-                              <th class="text-center">@lang('site.mobile')</th>
-                              <th class="text-center">@lang('site.email')</th>
+                              <th><a href="{{ route('dashboard.schools.index', ['order_by' => 'name' ]) }}" style="color: inherit;">@lang('site.name')</a></th>
+                              <th width="120px" class="text-center"><a href="{{ route('dashboard.schools.index', ['order_by' => 'moe_id' ]) }}" style="color: inherit;">@lang('site.moeid')</a></th>
+                              <th class="text-center"><a href="{{ route('dashboard.schools.index', ['order_by' => 'office_id' ]) }}" style="color: inherit;">@lang('site.office')</a></th>
+                              <th class="text-center"><a href="{{ route('dashboard.schools.index', ['order_by' => 'stage' ]) }}" style="color: inherit;">@lang('site.stage')</a></th>
+                              <th><a href="{{ route('dashboard.schools.index', ['order_by' => 'manager' ]) }}" style="color: inherit;">@lang('site.manager')</a></th>
+                              <th class="text-center"><a href="{{ route('dashboard.schools.index', ['order_by' => 'mobile' ]) }}" style="color: inherit;">@lang('site.mobile')</a></th>
+                              <th class="text-center"><a href="{{ route('dashboard.schools.index', ['order_by' => 'email' ]) }}" style="color: inherit;">@lang('site.email')</a></th>
                               <th class="text-center">@lang('site.related_teacher')</th>
                               <th class="text-center">@lang('site.students')</th>
                               <th width="10%" colspan="2" class="text-center">@lang('site.action')</th>

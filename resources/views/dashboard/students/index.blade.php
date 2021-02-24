@@ -149,11 +149,11 @@
                         <thead class="bg-dark">
                           <tr class="text-center">
                               <th><button type="button" class="btn btn-sm btn-secondary" data-toggle="collapse" data-target=".ShowHide">#</button></th>
-                              <th>@lang('site.name')</th>
-                              <th>@lang('site.stage')</th>
-                              <th>@lang('site.class')</th>
-                              <th>@lang('site.office')</th>
-                              <th>@lang('site.school')</th>
+                              <th><a href="{{ route('dashboard.students.index', ['order_by' => 'name' ]) }}" style="color: inherit;">@lang('site.name')</a></th>
+                              <th><a href="{{ route('dashboard.students.index', ['order_by' => 'stage' ]) }}" style="color: inherit;">@lang('site.stage')</a></th>
+                              <th><a href="{{ route('dashboard.students.index', ['order_by' => 'class' ]) }}" style="color: inherit;">@lang('site.class')</a></th>
+                              <th><a href="{{ route('dashboard.students.index', ['order_by' => 'office_id' ]) }}" style="color: inherit;">@lang('site.office')</a></th>
+                              <th><a href="{{ route('dashboard.students.index', ['order_by' => 'school_id' ]) }}" style="color: inherit;">@lang('site.school')</a></th>
                               <th>@lang('site.programs')</th>
                               <th>@lang('site.courses')</th>
                               <th>@lang('site.related_teacher')</th>
@@ -205,12 +205,14 @@
                                           <tr class="bg-secondary">
                                               <th>@lang('site.idcard')</th>
                                               <th>@lang('site.mobile')</th>
+                                              <th><a href="{{ route('dashboard.students.index', ['order_by' => 'degree' ]) }}" style="color: inherit;">@lang('site.degree')</a></th>
                                               <th>@lang('site.email')</th>
                                           </tr>
                                       </thead>
                                       <tbody>
                                         <td>{{ $student->idcard }}</td>
                                         <td>{{ $student->mobile }}</td>
+                                        <td>{{ $student->degree }}</td>
                                         <td>{{ $student->email }}</td>
                                       </tbody>
                                   </table>
